@@ -168,6 +168,12 @@
             color: #86efac;
         }
 
+        .tab-btn.active.tab-video {
+            background: rgba(236, 72, 153, 0.15);
+            border-color: #ec4899;
+            color: #f9a8d4;
+        }
+
         /* Main Container */
         main {
             flex: 1;
@@ -223,6 +229,293 @@
         .badge-g7 { background: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid #0891b2; }
         .badge-trans { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #9333ea; }
         .badge-sim { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #16a34a; }
+        .badge-video { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid #db2777; }
+
+        /* Video Tab Styles */
+        .video-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .video-mode-btn {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .video-mode-btn:hover {
+            background: #334155;
+            color: #fff;
+        }
+
+        .video-mode-btn.active {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #ec4899;
+            color: #f9a8d4;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .video-grid.focus-g1 {
+            grid-template-columns: 1fr;
+        }
+        .video-grid.focus-g1 .video-card-g7 {
+            display: none;
+        }
+
+        .video-grid.focus-g7 {
+            grid-template-columns: 1fr;
+        }
+        .video-grid.focus-g7 .video-card-g1 {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-card {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45);
+        }
+
+        .video-card-g1 {
+            border-top: 4px solid var(--g1-color);
+        }
+
+        .video-card-g7 {
+            border-top: 4px solid var(--g7-color);
+        }
+
+        .video-card-header {
+            padding: 16px 20px;
+            background: rgba(30, 41, 59, 0.75);
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .video-card-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .video-frame-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: #020617;
+        }
+
+        .video-frame-wrapper iframe,
+        .video-frame-wrapper video,
+        .video-poster-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-frame-wrapper video {
+            background: #000;
+            object-fit: contain;
+        }
+
+        .video-poster-overlay {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.25s ease;
+        }
+
+        .video-poster-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(2,6,23,0.35) 0%, rgba(2,6,23,0.75) 100%);
+            transition: background 0.25s ease;
+        }
+
+        .video-poster-overlay:hover::before {
+            background: linear-gradient(180deg, rgba(2,6,23,0.15) 0%, rgba(2,6,23,0.55) 100%);
+        }
+
+        .yt-big-play-btn {
+            position: relative;
+            z-index: 2;
+            width: 84px;
+            height: 60px;
+            background: rgba(220, 38, 38, 0.95);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.55), 0 0 0 4px rgba(255,255,255,0.2);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .video-poster-overlay:hover .yt-big-play-btn {
+            transform: scale(1.1);
+            background: #ef4444;
+            box-shadow: 0 14px 36px rgba(239, 68, 68, 0.75), 0 0 0 6px rgba(255,255,255,0.3);
+        }
+
+        .yt-big-play-btn svg {
+            width: 34px;
+            height: 34px;
+            fill: #ffffff;
+            margin-left: 4px;
+        }
+
+        .yt-poster-caption {
+            position: relative;
+            z-index: 2;
+            margin-top: 14px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f8fafc;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .yt-poster-sub {
+            position: relative;
+            z-index: 2;
+            margin-top: 6px;
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+        }
+
+        .btn-local-mp4 {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 13px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.84rem;
+            cursor: pointer;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid #22c55e;
+            color: #86efac;
+            transition: all 0.2s;
+        }
+
+        .btn-local-mp4:hover {
+            background: rgba(34, 197, 94, 0.28);
+            color: #ffffff;
+        }
+
+        .video-card-body {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .video-prompts {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .video-prompts strong {
+            color: #f8fafc;
+        }
+
+        .video-actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: auto;
+            padding-top: 6px;
+        }
+
+        .btn-yt-external {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-decoration: none;
+            color: #ffffff;
+            background: #dc2626;
+            border: 1px solid #ef4444;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-yt-external:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        .video-note-banner {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #475569;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
 
         .activity-title {
             font-size: 1.25rem;
@@ -1174,6 +1467,9 @@
         <button class="tab-btn tab-sim" onclick="App.switchTab('sim')">
             <span>🔬</span> 4. Shielding & Distance Simulation
         </button>
+        <button class="tab-btn tab-video" onclick="App.switchTab('video')">
+            <span>🎬</span> 5. Reaction Videos (Group 1 & 7)
+        </button>
     </nav>
 
     <!-- Main Views -->
@@ -1798,6 +2094,58 @@
             </div>
         </section>
 
+        <!-- ==================== TAB 5: REACTION VIDEOS ==================== -->
+        <section id="view-video" class="view-panel">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-video">Reaction Videos</span>
+                        <h2 class="activity-title">Group 1 (Alkali Metals) & Group 7 (Halogens)</h2>
+                    </div>
+                </div>
+
+                <div class="video-grid">
+                    <!-- Video 1: The Alkali Metals -->
+                    <div class="video-card video-card-g1">
+                        <div class="video-card-header">
+                            <div class="video-card-title">
+                                <span>🔥</span> The Alkali Metals (Group 1)
+                            </div>
+                        </div>
+                        <a class="video-frame-wrapper" href="https://www.youtube.com/watch?v=eaChisV5uR0" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                            <div class="video-poster-overlay" style="background-image: url('https://i.ytimg.com/vi/eaChisV5uR0/hqdefault.jpg');">
+                                <div class="yt-big-play-btn">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                                <div class="yt-poster-caption">
+                                    <span>▶</span> Watch on YouTube
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Video 2: The Halogens -->
+                    <div class="video-card video-card-g7">
+                        <div class="video-card-header">
+                            <div class="video-card-title">
+                                <span>⚡</span> The Halogens (Group 7)
+                            </div>
+                        </div>
+                        <a class="video-frame-wrapper" href="https://www.youtube.com/watch?v=EvtyMr5EvBY" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                            <div class="video-poster-overlay" style="background-image: url('https://i.ytimg.com/vi/EvtyMr5EvBY/hqdefault.jpg');">
+                                <div class="yt-big-play-btn">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                                <div class="yt-poster-caption">
+                                    <span>▶</span> Watch on YouTube
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Unified JavaScript Engine -->
@@ -1898,6 +2246,8 @@
                 }
             }
         };
+
+
 
         // Universal Pointer Drag & Drop Engine
         class DragDropController {
