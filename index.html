@@ -1,0 +1,4120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodic Trends: Group 1, Group 7 & Transition Elements</title>
+    <style>
+        :root {
+            --bg-main: #0b1120;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --g1-color: #f97316;
+            --g1-light: #ffedd5;
+            --g1-border: #ea580c;
+            --g7-color: #06b6d4;
+            --g7-light: #cffafe;
+            --g7-border: #0891b2;
+            --trans-color: #a855f7;
+            --trans-light: #f3e8ff;
+            --trans-border: #9333ea;
+            --both-color: #10b981;
+            --both-light: #d1fae5;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --error: #ef4444;
+            --border-radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 0%, #1e293b, var(--bg-main) 75%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Header */
+        header {
+            background: rgba(11, 17, 32, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #334155;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-logo {
+            height: 48px;
+            width: auto;
+            border-radius: 8px;
+            background: #fff;
+            padding: 4px;
+        }
+
+        .header-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fb923c, #38bdf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: var(--bg-card);
+            border: 1px solid #475569;
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-ctrl:hover {
+            background: var(--bg-card-hover);
+            border-color: #64748b;
+        }
+
+        /* Nav Tabs */
+        nav.nav-tabs {
+            display: flex;
+            background: #070b14;
+            padding: 6px 16px;
+            gap: 8px;
+            border-bottom: 1px solid #1e293b;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 2px solid transparent;
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active.tab-g1 {
+            background: rgba(249, 115, 22, 0.15);
+            border-color: var(--g1-color);
+            color: #fdba74;
+        }
+
+        .tab-btn.active.tab-g7 {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--g7-color);
+            color: #67e8f9;
+        }
+
+        .tab-btn.active.tab-trans {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: var(--trans-color);
+            color: #d8b4fe;
+        }
+
+        .tab-btn.active.tab-sim {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: var(--success);
+            color: #86efac;
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
+            padding: 20px;
+            max-width: 1350px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .view-panel {
+            display: none;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Activity Card Base */
+        .activity-card {
+            background: var(--bg-card);
+            border: 1px solid #334155;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 14px;
+        }
+
+        .activity-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        .badge-g1 { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid #ea580c; }
+        .badge-g7 { background: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid #0891b2; }
+        .badge-trans { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #9333ea; }
+        .badge-sim { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #16a34a; }
+
+        .activity-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        .activity-instruct {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        /* 3-Column Layout: Periodic Table Strip | Draggable Pool | Target Ladder */
+        .tri-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 1.3fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .tri-layout {
+                grid-template-columns: 260px 1fr;
+            }
+            .ladder-target-column {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tri-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Periodic Table Reference Strip */
+        .pt-strip-card {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .pt-strip-header {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .pt-strip-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pt-tile {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .pt-tile-g1 { border-left: 4px solid var(--g1-color); }
+        .pt-tile-g7 { border-left: 4px solid var(--g7-color); }
+
+        .pt-tile-sym {
+            font-size: 1.25rem;
+            font-weight: 900;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pt-tile-g1 .pt-tile-sym { color: #fb923c; }
+        .pt-tile-g7 .pt-tile-sym { color: #38bdf8; }
+
+        .pt-tile-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .pt-tile-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #f8fafc;
+        }
+
+        .pt-tile-sub {
+            font-size: 0.72rem;
+            color: #94a3b8;
+        }
+
+        .pt-strip-footer {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px dashed #334155;
+            font-size: 0.78rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Source Pool */
+        .source-pool-container {
+            background: #0f172a;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 16px;
+            min-height: 180px;
+        }
+
+        .pool-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cards-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 80px;
+        }
+
+        /* Draggable Element Cards */
+        .elem-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid #475569;
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: grab;
+            touch-action: none;
+            transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 100%;
+        }
+
+        .elem-card:active {
+            cursor: grabbing;
+        }
+
+        .elem-card.selected-tap {
+            outline: 3px solid #38bdf8;
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+            transform: scale(1.02);
+            animation: pulseTap 1s infinite alternate;
+        }
+
+        @keyframes pulseTap {
+            from { box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+            to { box-shadow: 0 0 20px rgba(56, 189, 248, 0.9); }
+        }
+
+        .elem-symbol {
+            font-size: 1.3rem;
+            font-weight: 900;
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .elem-card.g1-card .elem-symbol {
+            color: #fb923c;
+            border: 1px solid rgba(251, 146, 60, 0.4);
+        }
+
+        .elem-card.g7-card .elem-symbol {
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .elem-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .elem-name {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .elem-detail {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Target Ladder Slots */
+        .ladder-target-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+
+        .ladder-header-bar {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #cbd5e1;
+        }
+
+        .ladder-slot {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px dashed #475569;
+            border-radius: 12px;
+            min-height: 66px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .ladder-slot.slot-hover {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .ladder-slot.slot-correct {
+            border-color: var(--success);
+            background: rgba(34, 197, 94, 0.12);
+            border-style: solid;
+        }
+
+        .ladder-slot.slot-wrong {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.12);
+            border-style: solid;
+        }
+
+        .slot-rank-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            min-width: 140px;
+        }
+
+        .slot-rank-num {
+            background: #334155;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .slot-rank-top {
+            background: #ea580c;
+            color: #fff;
+        }
+
+        .slot-clue {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        .slot-content {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .slot-empty-text {
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Result Banner */
+        .result-banner {
+            margin-top: 20px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid var(--success);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .result-banner.active {
+            display: flex;
+        }
+
+        .banner-text-box h4 {
+            font-size: 1.15rem;
+            color: #86efac;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .banner-text-box p {
+            font-size: 0.9rem;
+            color: #d1fae5;
+            margin-top: 4px;
+        }
+
+        /* Trend Prediction Section */
+        .predict-section {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .predict-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1.2fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 850px) {
+            .predict-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Trend Data Table */
+        .trend-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #475569;
+            font-size: 0.9rem;
+        }
+
+        .trend-table th {
+            background: #090d16;
+            color: #94a3b8;
+            text-align: left;
+            padding: 10px 14px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid #334155;
+        }
+
+        .trend-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #334155;
+            color: #f1f5f9;
+        }
+
+        .trend-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .trend-table tr.highlight-target {
+            background: rgba(56, 189, 248, 0.12);
+        }
+
+        .trend-table .target-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f59e0b;
+            color: #000;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            animation: pulseTarget 1.5s infinite alternate;
+        }
+
+        @keyframes pulseTarget {
+            from { box-shadow: 0 0 5px rgba(245, 158, 11, 0.4); }
+            to { box-shadow: 0 0 15px rgba(245, 158, 11, 0.9); }
+        }
+
+        /* Prediction Controls */
+        .predict-controls-box {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .predict-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-predict {
+            background: #1e293b;
+            border: 2px solid #475569;
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-predict:hover {
+            border-color: #94a3b8;
+            background: #334155;
+            transform: translateY(-2px);
+        }
+
+        .btn-predict.correct {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: var(--success);
+            color: #86efac;
+        }
+
+        .btn-predict.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--error);
+            color: #fca5a5;
+        }
+
+        /* Custom Input Row */
+        .custom-predict-row {
+            display: flex;
+            gap: 10px;
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            align-items: center;
+        }
+
+        .custom-input {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .custom-input:focus {
+            border-color: #38bdf8;
+        }
+
+        .btn-test-custom {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-test-custom:hover {
+            background: #1d4ed8;
+        }
+
+        .predict-feedback {
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .predict-feedback.show-correct {
+            display: block;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid var(--success);
+            color: #d1fae5;
+        }
+
+        .predict-feedback.show-wrong {
+            display: block;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--error);
+            color: #fee2e2;
+        }
+
+        /* 3-Bucket Sorter Styles (Transition vs G1) */
+        .sorter-board {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .sorter-board {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bucket-zone {
+            background: #0f172a;
+            border: 2px dashed #475569;
+            border-radius: 14px;
+            padding: 16px;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s;
+        }
+
+        .bucket-zone.zone-hover {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        .bucket-header {
+            font-size: 1rem;
+            font-weight: 800;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bucket-g1 .bucket-header { color: #fb923c; border-color: rgba(251, 146, 60, 0.4); }
+        .bucket-both .bucket-header { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
+        .bucket-trans .bucket-header { color: #c084fc; border-color: rgba(192, 132, 252, 0.4); }
+
+        .bucket-items {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .property-card {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: grab;
+            touch-action: none;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .property-card:active {
+            cursor: grabbing;
+        }
+
+        .property-card.selected-tap {
+            outline: 3px solid #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+            transform: scale(1.02);
+        }
+
+        .property-card.correct {
+            border-color: var(--success);
+            background: rgba(34, 197, 94, 0.15);
+        }
+
+        .property-card.wrong {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        /* ========================================================
+           TAB 4: ATOMIC SHIELDING & DISTANCE SIMULATION STYLES
+           ======================================================== */
+        .sim-layout {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .sim-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .canvas-container {
+            background: radial-gradient(circle at 50% 50%, #172554 0%, #090d16 85%);
+            border: 2px solid #334155;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #atom-canvas {
+            width: 100%;
+            height: 480px;
+            display: block;
+            touch-action: none;
+        }
+
+        .canvas-overlay-banner {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .canvas-badge {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid #475569;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .canvas-action-toast {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid #38bdf8;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #e0f2fe;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        /* Simulation Controls Panel */
+        .sim-controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .sim-group-selector {
+            display: flex;
+            gap: 10px;
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+        }
+
+        .btn-group-toggle {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-group-toggle.active.g1-active {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fb923c;
+            border: 1px solid #ea580c;
+        }
+
+        .btn-group-toggle.active.g7-active {
+            background: rgba(6, 182, 212, 0.2);
+            color: #38bdf8;
+            border: 1px solid #0891b2;
+        }
+
+        .sim-elem-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .btn-atom-sel {
+            background: #1e293b;
+            border: 2px solid #475569;
+            border-radius: 10px;
+            padding: 10px 4px;
+            color: #f1f5f9;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .btn-atom-sel:hover {
+            border-color: #94a3b8;
+            background: #334155;
+        }
+
+        .btn-atom-sel.active {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            transform: scale(1.05);
+        }
+
+        .sim-toggles-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #cbd5e1;
+        }
+
+        .switch-btn {
+            background: #334155;
+            border: 1px solid #64748b;
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .switch-btn.on {
+            background: #0284c7;
+            border-color: #38bdf8;
+            color: #fff;
+        }
+
+        /* Interactive Physics Test Bar */
+        .physics-test-card {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-physics-action {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-physics-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        /* Live Metrics Meter */
+        .metrics-card {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 6px;
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .metric-val {
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        /* Force Gauge Bar */
+        .gauge-bar-wrapper {
+            height: 10px;
+            background: #0f172a;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        /* Touch / Drag Ghost */
+        .drag-ghost {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0.9;
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-title-box">
+            <img src="logo.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
+            <div>
+                <h1 class="header-title">Periodic Trends & Reactivity</h1>
+                <p class="header-subtitle">Interactive Review & Atomic Simulation for IFP Screen</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <button class="btn-ctrl" onclick="SoundEngine.toggleSound()" id="sound-btn">
+                <span>🔊</span> Sound: ON
+            </button>
+            <button class="btn-ctrl" onclick="App.toggleFullscreen()">
+                <span>⛶</span> Fullscreen
+            </button>
+        </div>
+    </header>
+
+    <!-- Nav Tabs -->
+    <nav class="nav-tabs">
+        <button class="tab-btn tab-g1 active" onclick="App.switchTab('g1')">
+            <span>🔥</span> 1. Group 1 Review (Alkali Metals)
+        </button>
+        <button class="tab-btn tab-g7" onclick="App.switchTab('g7')">
+            <span>⚡</span> 2. Group 7 Review (Halogens)
+        </button>
+        <button class="tab-btn tab-trans" onclick="App.switchTab('trans')">
+            <span>⚖️</span> 3. Transition vs Group 1 (Sorter)
+        </button>
+        <button class="tab-btn tab-sim" onclick="App.switchTab('sim')">
+            <span>🔬</span> 4. Shielding & Distance Simulation
+        </button>
+    </nav>
+
+    <!-- Main Views -->
+    <main>
+
+        <!-- ==================== TAB 1: GROUP 1 REVIEW ==================== -->
+        <section id="view-g1" class="view-panel active">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-g1">Active Recall Activity</span>
+                        <h2 class="activity-title">Activity A: Order Group 1 by Reactivity (Most Reactive on Top)</h2>
+                        <p class="activity-instruct">Reference the Periodic Table strip on the left! Arrange elements from <strong>Most Reactive (Top)</strong> to <strong>Least Reactive (Bottom)</strong>.</p>
+                    </div>
+                    <button class="btn-ctrl" onclick="G1Activity.resetLadder()">🔄 Reset</button>
+                </div>
+
+                <div class="tri-layout">
+                    <!-- Column 1: Periodic Table Reference Strip -->
+                    <div class="pt-strip-card">
+                        <div class="pt-strip-header">
+                            <span>📖 Periodic Table</span>
+                            <span class="activity-badge badge-g1">Group 1</span>
+                        </div>
+                        <div class="pt-strip-items">
+                            <div class="pt-tile pt-tile-g1">
+                                <div class="pt-tile-sym">Li</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Lithium (3)</span>
+                                    <span class="pt-tile-sub">Period 2 • 2,1</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g1">
+                                <div class="pt-tile-sym">Na</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Sodium (11)</span>
+                                    <span class="pt-tile-sub">Period 3 • 2,8,1</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g1">
+                                <div class="pt-tile-sym">K</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Potassium (19)</span>
+                                    <span class="pt-tile-sub">Period 4 • 2,8,8,1</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g1">
+                                <div class="pt-tile-sym">Rb</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Rubidium (37)</span>
+                                    <span class="pt-tile-sub">Period 5 • 2,8,18,8,1</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g1">
+                                <div class="pt-tile-sym">Cs</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Caesium (55)</span>
+                                    <span class="pt-tile-sub">Period 6 • 2,8,18,18,8,1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-strip-footer">
+                            <span>⬇️</span>
+                            <span>In Group 1, reactivity <strong>INCREASES</strong> down the group!</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Source Cards Pool -->
+                    <div class="source-pool-container">
+                        <div class="pool-title">
+                            <span>Element Cards</span>
+                            <span style="font-size: 0.75rem;">(Tap or Drag)</span>
+                        </div>
+                        <div class="cards-pool" id="g1-pool"></div>
+                    </div>
+
+                    <!-- Column 3: Target Ladder (Most Reactive on Top!) -->
+                    <div class="ladder-target-column">
+                        <div class="ladder-header-bar">
+                            <span>🏆 Rank by Reactivity</span>
+                            <span style="color: #fb923c;">Most Reactive &rarr; Least Reactive</span>
+                        </div>
+
+                        <!-- Slot 1: Cs (Most Reactive on Top) -->
+                        <div class="ladder-slot" data-slot="1" data-expected="Cs" onclick="G1Activity.onSlotTap(1)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num slot-rank-top">1</span>
+                                <div>
+                                    <div style="color: #fb923c;">Most Reactive (Top)</div>
+                                    <div class="slot-clue">Explosive shockwave shatters glass</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g1-slot-1"><span class="slot-empty-text">[ Drop Cs here ]</span></div>
+                        </div>
+
+                        <!-- Slot 2: Rb -->
+                        <div class="ladder-slot" data-slot="2" data-expected="Rb" onclick="G1Activity.onSlotTap(2)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">2</span>
+                                <div>
+                                    <div>Extremely Violent</div>
+                                    <div class="slot-clue">Instant flash & rapid shockwave</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g1-slot-2"><span class="slot-empty-text">[ Drop Rb here ]</span></div>
+                        </div>
+
+                        <!-- Slot 3: K -->
+                        <div class="ladder-slot" data-slot="3" data-expected="K" onclick="G1Activity.onSlotTap(3)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">3</span>
+                                <div>
+                                    <div>Very Reactive</div>
+                                    <div class="slot-clue">Catches fire with lilac flame!</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g1-slot-3"><span class="slot-empty-text">[ Drop K here ]</span></div>
+                        </div>
+
+                        <!-- Slot 4: Na -->
+                        <div class="ladder-slot" data-slot="4" data-expected="Na" onclick="G1Activity.onSlotTap(4)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">4</span>
+                                <div>
+                                    <div>More Reactive</div>
+                                    <div class="slot-clue">Melts into silver ball, darts rapidly</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g1-slot-4"><span class="slot-empty-text">[ Drop Na here ]</span></div>
+                        </div>
+
+                        <!-- Slot 5: Li (Least Reactive at Bottom) -->
+                        <div class="ladder-slot" data-slot="5" data-expected="Li" onclick="G1Activity.onSlotTap(5)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">5</span>
+                                <div>
+                                    <div>Least Reactive (Bottom)</div>
+                                    <div class="slot-clue">Fizzes steadily, floats on water</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g1-slot-5"><span class="slot-empty-text">[ Drop Li here ]</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reactivity Banner Result -->
+                <div class="result-banner" id="g1-reactivity-banner">
+                    <div class="banner-text-box">
+                        <h4>🎉 Correct! Most Reactive on Top: Cs &gt; Rb &gt; K &gt; Na &gt; Li</h4>
+                        <p>Going down Group 1, atoms get larger so reactivity <strong>INCREASES</strong> with water. Caesium (Cs) is the most reactive, and Lithium (Li) is the least reactive!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 1 Melting Point Prediction Activity -->
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-g1">Trend Prediction Challenge</span>
+                        <h2 class="activity-title">Activity B: Predict the Melting Point of Rubidium (Rb)</h2>
+                        <p class="activity-instruct">Analyze the trend in the data table below. As you go down Group 1, melting point <strong>decreases</strong>. Predict Rubidium's melting point!</p>
+                    </div>
+                </div>
+
+                <div class="predict-section">
+                    <div class="predict-grid">
+                        <!-- Table of Trend Data -->
+                        <div>
+                            <table class="trend-table">
+                                <thead>
+                                    <tr>
+                                        <th>Element</th>
+                                        <th>Period</th>
+                                        <th>Melting Point (°C)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Lithium (Li)</strong></td>
+                                        <td>Period 2</td>
+                                        <td>180 °C</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sodium (Na)</strong></td>
+                                        <td>Period 3</td>
+                                        <td>98 °C</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Potassium (K)</strong></td>
+                                        <td>Period 4</td>
+                                        <td>63 °C</td>
+                                    </tr>
+                                    <tr class="highlight-target">
+                                        <td><strong>Rubidium (Rb)</strong></td>
+                                        <td>Period 5</td>
+                                        <td><span class="target-badge">❓ PREDICT</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Caesium (Cs)</strong></td>
+                                        <td>Period 6</td>
+                                        <td>28 °C</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Prediction Options & Testing -->
+                        <div class="predict-controls-box">
+                            <p style="font-size: 0.95rem; font-weight: 700; color: #cbd5e1;">
+                                Based on the decreasing trend, which value is the best prediction for Rubidium (Rb)?
+                            </p>
+                            <div class="predict-options-grid">
+                                <button class="btn-predict" onclick="G1Activity.checkPrediction(120, this)">120 °C</button>
+                                <button class="btn-predict" onclick="G1Activity.checkPrediction(75, this)">75 °C</button>
+                                <button class="btn-predict" onclick="G1Activity.checkPrediction(39, this)">39 °C</button>
+                                <button class="btn-predict" onclick="G1Activity.checkPrediction(15, this)">15 °C</button>
+                            </div>
+
+                            <div class="custom-predict-row">
+                                <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 600;">Or test a custom estimate:</span>
+                                <input type="number" id="g1-custom-val" class="custom-input" placeholder="e.g. 45">
+                                <button class="btn-test-custom" onclick="G1Activity.testCustomPrediction()">Test °C</button>
+                            </div>
+
+                            <div class="predict-feedback" id="g1-predict-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TAB 2: GROUP 7 REVIEW ==================== -->
+        <section id="view-g7" class="view-panel">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-g7">Halogens Recall Activity</span>
+                        <h2 class="activity-title">Activity A: Order Group 7 by Reactivity (Most Reactive on Top)</h2>
+                        <p class="activity-instruct">Reference the Periodic Table strip on the left! Arrange halogens from <strong>Most Reactive (Top)</strong> to <strong>Least Reactive (Bottom)</strong>.</p>
+                    </div>
+                    <button class="btn-ctrl" onclick="G7Activity.resetLadder()">🔄 Reset</button>
+                </div>
+
+                <div class="tri-layout">
+                    <!-- Column 1: Periodic Table Reference Strip -->
+                    <div class="pt-strip-card">
+                        <div class="pt-strip-header">
+                            <span>📖 Periodic Table</span>
+                            <span class="activity-badge badge-g7">Group 7</span>
+                        </div>
+                        <div class="pt-strip-items">
+                            <div class="pt-tile pt-tile-g7">
+                                <div class="pt-tile-sym">F</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Fluorine (9)</span>
+                                    <span class="pt-tile-sub">Period 2 • 2,7</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g7">
+                                <div class="pt-tile-sym">Cl</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Chlorine (17)</span>
+                                    <span class="pt-tile-sub">Period 3 • 2,8,7</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g7">
+                                <div class="pt-tile-sym">Br</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Bromine (35)</span>
+                                    <span class="pt-tile-sub">Period 4 • 2,8,18,7</span>
+                                </div>
+                            </div>
+                            <div class="pt-tile pt-tile-g7">
+                                <div class="pt-tile-sym">I</div>
+                                <div class="pt-tile-info">
+                                    <span class="pt-tile-name">Iodine (53)</span>
+                                    <span class="pt-tile-sub">Period 5 • 2,8,18,18,7</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-strip-footer">
+                            <span>⬇️</span>
+                            <span>In Group 7, reactivity <strong>DECREASES</strong> down the group!</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Source Cards Pool -->
+                    <div class="source-pool-container">
+                        <div class="pool-title">
+                            <span>Halogen Cards</span>
+                            <span style="font-size: 0.75rem;">(Tap or Drag)</span>
+                        </div>
+                        <div class="cards-pool" id="g7-pool"></div>
+                    </div>
+
+                    <!-- Column 3: Target Ladder (Most Reactive on Top!) -->
+                    <div class="ladder-target-column">
+                        <div class="ladder-header-bar">
+                            <span>🏆 Rank by Reactivity</span>
+                            <span style="color: #38bdf8;">Most Reactive &rarr; Least Reactive</span>
+                        </div>
+
+                        <!-- Slot 1: F (Most Reactive on Top) -->
+                        <div class="ladder-slot" data-slot="1" data-expected="F" onclick="G7Activity.onSlotTap(1)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num slot-rank-top">1</span>
+                                <div>
+                                    <div style="color: #38bdf8;">Most Reactive (Top)</div>
+                                    <div class="slot-clue">Pale yellow toxic gas, reacts explosively</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g7-slot-1"><span class="slot-empty-text">[ Drop F here ]</span></div>
+                        </div>
+
+                        <!-- Slot 2: Cl -->
+                        <div class="ladder-slot" data-slot="2" data-expected="Cl" onclick="G7Activity.onSlotTap(2)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">2</span>
+                                <div>
+                                    <div>Very Reactive</div>
+                                    <div class="slot-clue">Pale green dense gas, bleaches litmus</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g7-slot-2"><span class="slot-empty-text">[ Drop Cl here ]</span></div>
+                        </div>
+
+                        <!-- Slot 3: Br -->
+                        <div class="ladder-slot" data-slot="3" data-expected="Br" onclick="G7Activity.onSlotTap(3)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">3</span>
+                                <div>
+                                    <div>Less Reactive</div>
+                                    <div class="slot-clue">Red-brown liquid & dense brown vapor</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g7-slot-3"><span class="slot-empty-text">[ Drop Br here ]</span></div>
+                        </div>
+
+                        <!-- Slot 4: I (Least Reactive at Bottom) -->
+                        <div class="ladder-slot" data-slot="4" data-expected="I" onclick="G7Activity.onSlotTap(4)">
+                            <div class="slot-rank-label">
+                                <span class="slot-rank-num">4</span>
+                                <div>
+                                    <div>Least Reactive (Bottom)</div>
+                                    <div class="slot-clue">Dark grey solid, sublimes to purple gas</div>
+                                </div>
+                            </div>
+                            <div class="slot-content" id="g7-slot-4"><span class="slot-empty-text">[ Drop I here ]</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reactivity Banner Result -->
+                <div class="result-banner" id="g7-reactivity-banner">
+                    <div class="banner-text-box">
+                        <h4>🎉 Correct! Most Reactive on Top: F &gt; Cl &gt; Br &gt; I</h4>
+                        <p>Going down Group 7, reactivity <strong>DECREASES</strong> (opposite of Group 1!). Fluorine (F) is the most reactive non-metal, and Iodine (I) is the least reactive!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 7 Boiling Point Prediction Activity -->
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-g7">Trend Prediction Challenge</span>
+                        <h2 class="activity-title">Activity B: Predict the Boiling Point of Bromine (Br₂)</h2>
+                        <p class="activity-instruct">Look at the states of matter and boiling points. Down Group 7, boiling point <strong>increases</strong>. Predict Bromine's boiling point!</p>
+                    </div>
+                </div>
+
+                <div class="predict-section">
+                    <div class="predict-grid">
+                        <!-- Table of Trend Data -->
+                        <div>
+                            <table class="trend-table">
+                                <thead>
+                                    <tr>
+                                        <th>Halogen</th>
+                                        <th>State at 20°C</th>
+                                        <th>Boiling Point (°C)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Fluorine (F₂)</strong></td>
+                                        <td>Gas</td>
+                                        <td>-188 °C</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Chlorine (Cl₂)</strong></td>
+                                        <td>Gas</td>
+                                        <td>-34 °C</td>
+                                    </tr>
+                                    <tr class="highlight-target">
+                                        <td><strong>Bromine (Br₂)</strong></td>
+                                        <td>Liquid</td>
+                                        <td><span class="target-badge">❓ PREDICT</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Iodine (I₂)</strong></td>
+                                        <td>Solid</td>
+                                        <td>184 °C</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Astatine (At₂)</strong></td>
+                                        <td>Solid</td>
+                                        <td>337 °C</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Prediction Options & Testing -->
+                        <div class="predict-controls-box">
+                            <p style="font-size: 0.95rem; font-weight: 700; color: #cbd5e1;">
+                                Based on the increasing trend, which value is the best prediction for Bromine (Br₂)?
+                            </p>
+                            <div class="predict-options-grid">
+                                <button class="btn-predict" onclick="G7Activity.checkPrediction(-50, this)">-50 °C</button>
+                                <button class="btn-predict" onclick="G7Activity.checkPrediction(59, this)">59 °C</button>
+                                <button class="btn-predict" onclick="G7Activity.checkPrediction(215, this)">215 °C</button>
+                                <button class="btn-predict" onclick="G7Activity.checkPrediction(-120, this)">-120 °C</button>
+                            </div>
+
+                            <div class="custom-predict-row">
+                                <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 600;">Or test a custom estimate:</span>
+                                <input type="number" id="g7-custom-val" class="custom-input" placeholder="e.g. 60">
+                                <button class="btn-test-custom" onclick="G7Activity.testCustomPrediction()">Test °C</button>
+                            </div>
+
+                            <div class="predict-feedback" id="g7-predict-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TAB 3: TRANSITION VS GROUP 1 ==================== -->
+        <section id="view-trans" class="view-panel">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-trans">Comparative Review Sorter</span>
+                        <h2 class="activity-title">Comparing Transition Elements vs Group 1 (Alkali Metals)</h2>
+                        <p class="activity-instruct">Drag each property card into the correct category (or tap card then tap bucket): <strong>Group 1 Only</strong>, <strong>Both (Shared)</strong>, or <strong>Transition Metals Only</strong>.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-ctrl" onclick="VennActivity.checkAll()">✔️ Check All</button>
+                        <button class="btn-ctrl" onclick="VennActivity.reset()">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <!-- Unsorted Cards Pool -->
+                <div class="source-pool-container" style="margin-bottom: 16px;">
+                    <div class="pool-title">
+                        <span>Property Cards to Sort</span>
+                        <span id="sorter-count">9 cards remaining</span>
+                    </div>
+                    <div class="cards-pool" id="sorter-pool"></div>
+                </div>
+
+                <!-- 3 Drop Buckets -->
+                <div class="sorter-board">
+                    <!-- Bucket 1: Group 1 -->
+                    <div class="bucket-zone bucket-g1" data-bucket="g1" onclick="VennActivity.onBucketTap('g1')">
+                        <div class="bucket-header">
+                            <span>🔥 Group 1 Alkali Metals Only</span>
+                            <span class="activity-badge badge-g1" id="count-g1">0</span>
+                        </div>
+                        <div class="bucket-items" id="bucket-g1-items"></div>
+                    </div>
+
+                    <!-- Bucket 2: Both -->
+                    <div class="bucket-zone bucket-both" data-bucket="both" onclick="VennActivity.onBucketTap('both')">
+                        <div class="bucket-header">
+                            <span>🤝 Both (Shared Metallic Properties)</span>
+                            <span class="activity-badge" style="background: rgba(34,197,94,0.2); color: #86efac;" id="count-both">0</span>
+                        </div>
+                        <div class="bucket-items" id="bucket-both-items"></div>
+                    </div>
+
+                    <!-- Bucket 3: Transition -->
+                    <div class="bucket-zone bucket-trans" data-bucket="trans" onclick="VennActivity.onBucketTap('trans')">
+                        <div class="bucket-header">
+                            <span>⚙️ Transition Elements Only</span>
+                            <span class="activity-badge badge-trans" id="count-trans">0</span>
+                        </div>
+                        <div class="bucket-items" id="bucket-trans-items"></div>
+                    </div>
+                </div>
+
+                <!-- Sorter Feedback Banner -->
+                <div class="result-banner" id="sorter-banner">
+                    <div class="banner-text-box">
+                        <h4>🎉 Excellent! All Properties Sorted Correctly!</h4>
+                        <p>Transition metals are hard, dense, have high melting points, and react very slowly with water. Group 1 metals are soft, have low density, low melting points, and react vigorously with cold water!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+                <!-- ==================== TAB 4: SHIELDING & DISTANCE SIMULATION ==================== -->
+        <section id="view-sim" class="view-panel">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div>
+                        <span class="activity-badge badge-sim">Interactive Discovery Simulation</span>
+                        <h2 class="activity-title">Simulation: Distance from Nucleus &amp; Shielding Effect</h2>
+                        <p class="activity-instruct" id="sim-subtitle-instruct">
+                            Compare elements down the group! Watch how <strong>distance from the nucleus</strong> and <strong>inner-shell shielding</strong> affect how easily an outer electron is removed (Group 1) or how easily an incoming electron attaches (Group 7).
+                        </p>
+                    </div>
+                    <button class="btn-ctrl" onclick="AtomicSim.resetTest()">🔄 Reset Animation</button>
+                </div>
+
+                <div class="sim-layout">
+                    <!-- Left: Canvas Atomic Model Display -->
+                    <div class="canvas-container">
+                        <canvas id="atom-canvas" width="760" height="520" onclick="AtomicSim.triggerInteractiveTest()" style="cursor: pointer;"></canvas>
+                        
+                        <div class="canvas-overlay-banner">
+                            <div class="canvas-badge" id="canvas-atom-title">Lithium (Li) • 2 Shells (2,1)</div>
+                            <div class="canvas-badge" id="canvas-radius-badge">Distance (r): 152 pm</div>
+                        </div>
+
+                        <div class="canvas-action-toast" id="sim-toast">
+                            💡 Tap the action button (or tap the atom) to test removing/attaching the electron!
+                        </div>
+                    </div>
+
+                    <!-- Right: Interactive Controls & Live Metrics -->
+                    <div class="sim-controls-panel">
+                        <!-- Group Selector -->
+                        <div class="sim-group-selector">
+                            <button class="btn-group-toggle active g1-active" id="btn-grp-1" onclick="AtomicSim.switchGroup('g1')">
+                                🔥 Group 1 (Remove Outer e⁻)
+                            </button>
+                            <button class="btn-group-toggle" id="btn-grp-7" onclick="AtomicSim.switchGroup('g7')">
+                                ⚡ Group 7 (Attract 8th e⁻)
+                            </button>
+                        </div>
+
+                        <!-- Element Buttons Selector -->
+                        <div>
+                            <div style="font-size: 0.8rem; font-weight: 700; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase;">
+                                Select Element (Compare Top vs Bottom of Group):
+                            </div>
+                            <div class="sim-elem-selector-grid" id="sim-elem-btns">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Interactive Action / Physics Test -->
+                        <div class="physics-test-card" style="border-color: #38bdf8; background: linear-gradient(180deg, rgba(30,41,59,0.95), rgba(15,23,42,0.98));">
+                            <button class="btn-physics-action" id="btn-action-test" onclick="AtomicSim.triggerInteractiveTest()">
+                                <span id="btn-action-icon">🧲</span> <span id="btn-action-text">Pull Outer Electron Away</span>
+                            </button>
+                            <p id="action-expl" style="font-size: 0.84rem; color: #e2e8f0; line-height: 1.45; text-align: center;">
+                                Click to see how much effort is needed to remove the outer electron!
+                            </p>
+                        </div>
+
+                        <!-- Live Scientific Metrics -->
+                        <div class="metrics-card">
+                            <div class="metric-item">
+                                <span class="metric-label">Electronic Configuration:</span>
+                                <span class="metric-val" id="metric-config">2, 1</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Number of Shells:</span>
+                                <span class="metric-val" id="metric-shells">2 shells</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Distance to Outer Shell ($r$):</span>
+                                <span class="metric-val" id="metric-distance">152 pm (Close to nucleus)</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Shielding Effect (Inner Shells):</span>
+                                <span class="metric-val" id="metric-shield-count">1 inner shell (2 e⁻) — Minimum</span>
+                            </div>
+                            <div class="metric-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                <div style="display: flex; justify-content: space-between; width: 100%;">
+                                    <span class="metric-label" id="metric-force-label">Nuclear Pull on Outer Shell:</span>
+                                    <span class="metric-val" id="metric-force-text" style="color: #4ade80;">STRONG</span>
+                                </div>
+                                <div class="gauge-bar-wrapper" style="width: 100%;">
+                                    <div class="gauge-fill" id="metric-force-gauge" style="width: 85%; background: #22c55e;"></div>
+                                </div>
+                            </div>
+                            <div class="metric-item" style="flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 4px;">
+                                <div style="display: flex; justify-content: space-between; width: 100%;">
+                                    <span class="metric-label" id="metric-ease-label">Ease of Removing Outer Electron:</span>
+                                    <span class="metric-val" id="metric-ease-text" style="color: #ef4444;">HARD TO REMOVE</span>
+                                </div>
+                                <div class="gauge-bar-wrapper" style="width: 100%;">
+                                    <div class="gauge-fill" id="metric-ease-gauge" style="width: 15%; background: #ef4444;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simulation View Options -->
+                        <div class="sim-toggles-box">
+                            <div class="toggle-row">
+                                <span>🛡️ Show Inner-Shell Shielding Repulsion</span>
+                                <button class="switch-btn on" id="btn-toggle-shield" onclick="AtomicSim.toggleShielding()">ON</button>
+                            </div>
+                            <div class="toggle-row">
+                                <span>📏 Show Distance Ruler ($r$)</span>
+                                <button class="switch-btn on" id="btn-toggle-ruler" onclick="AtomicSim.toggleRuler()">ON</button>
+                            </div>
+                            <div class="toggle-row">
+                                <span>⚡ Show Nuclear Pull Vector</span>
+                                <button class="switch-btn on" id="btn-toggle-beam" onclick="AtomicSim.toggleBeam()">ON</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Unified JavaScript Engine -->
+    <script>
+        // Web Audio Synthesizer
+        const SoundEngine = {
+            ctx: null,
+            enabled: true,
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+
+            toggleSound() {
+                this.enabled = !this.enabled;
+                const btn = document.getElementById('sound-btn');
+                if (btn) btn.innerHTML = this.enabled ? '<span>🔊</span> Sound: ON' : '<span>🔇</span> Sound: OFF';
+            },
+
+            playTone(freq, type, duration, delay = 0) {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + delay);
+                    gain.gain.setValueAtTime(0.12, this.ctx.currentTime + delay);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + delay + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + delay);
+                    osc.stop(this.ctx.currentTime + delay + duration);
+                } catch(e) {}
+            },
+
+            pop() { this.playTone(520, 'sine', 0.08); },
+            whoosh() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.35);
+                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.35);
+                } catch(e) {}
+            },
+            success() {
+                this.playTone(523.25, 'triangle', 0.12, 0);
+                this.playTone(659.25, 'triangle', 0.12, 0.09);
+                this.playTone(783.99, 'triangle', 0.25, 0.18);
+            },
+            wrong() {
+                this.playTone(220, 'sawtooth', 0.15);
+            }
+        };
+
+        // App Manager
+        const App = {
+            currentTab: 'g1',
+
+            switchTab(tabId) {
+                SoundEngine.pop();
+                this.currentTab = tabId;
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
+
+                const activeBtn = document.querySelector(`.tab-btn.tab-${tabId}`);
+                if (activeBtn) activeBtn.classList.add('active');
+
+                const activeView = document.getElementById(`view-${tabId}`);
+                if (activeView) activeView.classList.add('active');
+
+                if (tabId === 'sim') {
+                    AtomicSim.onTabActivated();
+                }
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+        };
+
+        // Universal Pointer Drag & Drop Engine
+        class DragDropController {
+            constructor() {
+                this.activeDrag = null;
+                this.selectedTapItem = null;
+                this.ghost = null;
+
+                window.addEventListener('pointermove', e => this.onPointerMove(e));
+                window.addEventListener('pointerup', e => this.onPointerUp(e));
+                window.addEventListener('pointercancel', e => this.onPointerUp(e));
+            }
+
+            attachDraggable(element, data, onDropCallback) {
+                element.addEventListener('pointerdown', e => {
+                    if (e.button && e.button !== 0) return;
+                    SoundEngine.init();
+
+                    this.activeDrag = {
+                        el: element,
+                        data: data,
+                        onDrop: onDropCallback,
+                        startX: e.clientX,
+                        startY: e.clientY,
+                        isDragging: false
+                    };
+                });
+            }
+
+            selectTap(item, className = 'selected-tap') {
+                if (this.selectedTapItem && this.selectedTapItem.el === item.el) {
+                    this.clearTap();
+                    return;
+                }
+                this.clearTap();
+                this.selectedTapItem = item;
+                if (item.el) item.el.classList.add(className);
+                SoundEngine.pop();
+            }
+
+            clearTap() {
+                if (this.selectedTapItem && this.selectedTapItem.el) {
+                    this.selectedTapItem.el.classList.remove('selected-tap');
+                }
+                this.selectedTapItem = null;
+            }
+
+            onPointerMove(e) {
+                if (!this.activeDrag) return;
+
+                const dist = Math.hypot(e.clientX - this.activeDrag.startX, e.clientY - this.activeDrag.startY);
+                if (dist > 6 && !this.activeDrag.isDragging) {
+                    this.activeDrag.isDragging = true;
+                    this.createGhost(this.activeDrag.el, e.clientX, e.clientY);
+                    this.clearTap();
+                }
+
+                if (this.ghost) {
+                    this.ghost.style.left = e.clientX + 'px';
+                    this.ghost.style.top = e.clientY + 'px';
+                }
+            }
+
+            onPointerUp(e) {
+                if (this.ghost) {
+                    this.ghost.remove();
+                    this.ghost = null;
+                }
+
+                if (this.activeDrag && this.activeDrag.isDragging) {
+                    const elemBelow = document.elementFromPoint(e.clientX, e.clientY);
+                    if (elemBelow && this.activeDrag.onDrop) {
+                        this.activeDrag.onDrop(elemBelow, this.activeDrag.data);
+                    }
+                }
+
+                this.activeDrag = null;
+            }
+
+            createGhost(origEl, x, y) {
+                this.ghost = origEl.cloneNode(true);
+                this.ghost.classList.add('drag-ghost');
+                this.ghost.style.left = x + 'px';
+                this.ghost.style.top = y + 'px';
+                this.ghost.style.width = origEl.offsetWidth + 'px';
+                document.body.appendChild(this.ghost);
+            }
+        }
+
+        const DND = new DragDropController();
+
+        // ==========================================
+        // MODULE 1: GROUP 1 ACTIVITY
+        // ==========================================
+        const G1Activity = {
+            elements: [
+                { id: 'Cs', symbol: 'Cs', name: 'Caesium', detail: 'Period 6 • 55 protons' },
+                { id: 'Rb', symbol: 'Rb', name: 'Rubidium', detail: 'Period 5 • 37 protons' },
+                { id: 'K', symbol: 'K', name: 'Potassium', detail: 'Period 4 • 19 protons' },
+                { id: 'Na', symbol: 'Na', name: 'Sodium', detail: 'Period 3 • 11 protons' },
+                { id: 'Li', symbol: 'Li', name: 'Lithium', detail: 'Period 2 • 3 protons' }
+            ],
+            placed: {},
+
+            init() {
+                this.resetLadder();
+            },
+
+            resetLadder() {
+                this.placed = {};
+                document.getElementById('g1-reactivity-banner').classList.remove('active');
+
+                for (let i = 1; i <= 5; i++) {
+                    const slotContent = document.getElementById(`g1-slot-${i}`);
+                    slotContent.innerHTML = `<span class="slot-empty-text">[ Drop here ]</span>`;
+                    const slotDiv = slotContent.closest('.ladder-slot');
+                    slotDiv.classList.remove('slot-correct', 'slot-wrong');
+                }
+
+                const pool = document.getElementById('g1-pool');
+                pool.innerHTML = '';
+                
+                const shuffled = [...this.elements].sort(() => Math.random() - 0.5);
+                shuffled.forEach(el => {
+                    const card = this.createCard(el);
+                    pool.appendChild(card);
+                });
+            },
+
+            createCard(el) {
+                const div = document.createElement('div');
+                div.className = 'elem-card g1-card';
+                div.id = `card-g1-${el.id}`;
+                div.innerHTML = `
+                    <div class="elem-symbol">${el.symbol}</div>
+                    <div class="elem-meta">
+                        <span class="elem-name">${el.name}</span>
+                        <span class="elem-detail">${el.detail}</span>
+                    </div>
+                `;
+
+                DND.attachDraggable(div, el, (dropTarget, itemData) => {
+                    const slot = dropTarget.closest('.ladder-slot');
+                    if (slot) {
+                        const slotNum = parseInt(slot.getAttribute('data-slot'));
+                        this.placeElement(itemData, slotNum);
+                    }
+                });
+
+                div.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    DND.selectTap({ type: 'g1-elem', data: el, el: div });
+                });
+
+                return div;
+            },
+
+            onSlotTap(slotNum) {
+                if (DND.selectedTapItem && DND.selectedTapItem.type === 'g1-elem') {
+                    this.placeElement(DND.selectedTapItem.data, slotNum);
+                    DND.clearTap();
+                }
+            },
+
+            placeElement(el, slotNum) {
+                const slotDiv = document.querySelector(`.ladder-slot[data-slot="${slotNum}"]`);
+                const expected = slotDiv.getAttribute('data-expected');
+
+                if (el.id === expected) {
+                    SoundEngine.success();
+                    slotDiv.classList.remove('slot-wrong');
+                    slotDiv.classList.add('slot-correct');
+                    
+                    const slotContent = document.getElementById(`g1-slot-${slotNum}`);
+                    slotContent.innerHTML = `
+                        <div class="elem-card g1-card" style="margin:0; box-shadow:none; cursor:default;">
+                            <div class="elem-symbol">${el.symbol}</div>
+                            <div class="elem-meta">
+                                <span class="elem-name">${el.name}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    const origCard = document.getElementById(`card-g1-${el.id}`);
+                    if (origCard) origCard.remove();
+
+                    this.placed[slotNum] = el.id;
+                    this.checkCompletion();
+                } else {
+                    SoundEngine.wrong();
+                    slotDiv.classList.add('slot-wrong');
+                    setTimeout(() => slotDiv.classList.remove('slot-wrong'), 600);
+                }
+            },
+
+            checkCompletion() {
+                if (Object.keys(this.placed).length === 5) {
+                    document.getElementById('g1-reactivity-banner').classList.add('active');
+                    SoundEngine.success();
+                }
+            },
+
+            checkPrediction(val, btnEl) {
+                const feedback = document.getElementById('g1-predict-feedback');
+                document.querySelectorAll('#view-g1 .btn-predict').forEach(b => b.classList.remove('correct', 'wrong'));
+
+                if (val === 39) {
+                    btnEl.classList.add('correct');
+                    SoundEngine.success();
+                    feedback.className = 'predict-feedback show-correct';
+                    feedback.innerHTML = `
+                        <strong>🎯 Outstanding Prediction! 39 °C fits the trend perfectly.</strong><br>
+                        • Down Group 1, melting point decreases: 180°C &rarr; 98°C &rarr; 63°C &rarr; <strong>39°C</strong> &rarr; 28°C.<br>
+                        • Rubidium sits directly between Potassium (63°C) and Caesium (28°C), so any value between 28°C and 63°C follows the trend. Actual experimental value: <strong>39 °C</strong>!
+                    `;
+                } else if (val > 63) {
+                    btnEl.classList.add('wrong');
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ Too high (${val} °C)!</strong><br>
+                        Down Group 1, melting point DECREASES. Rubidium is below Potassium (63°C), so its melting point must be <em>lower than 63°C</em>!
+                    `;
+                } else {
+                    btnEl.classList.add('wrong');
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ Too low (${val} °C)!</strong><br>
+                        Rubidium is above Caesium (28°C) in Group 1, so its melting point must be <em>higher than 28°C</em>!
+                    `;
+                }
+            },
+
+            testCustomPrediction() {
+                const input = document.getElementById('g1-custom-val');
+                const val = parseFloat(input.value);
+                const feedback = document.getElementById('g1-predict-feedback');
+                if (isNaN(val)) return;
+
+                if (val > 28 && val < 63) {
+                    SoundEngine.success();
+                    feedback.className = 'predict-feedback show-correct';
+                    feedback.innerHTML = `
+                        <strong>🎯 Valid Scientific Prediction! (${val} °C)</strong><br>
+                        Because down Group 1 melting point decreases, Rubidium must lie between Potassium (63°C) and Caesium (28°C). Your prediction ${val}°C obeys the trend! (Actual experimental value: <strong>39 °C</strong>).
+                    `;
+                } else if (val >= 63) {
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ ${val} °C is too high!</strong><br>
+                        Rubidium must be lower than Potassium (63°C).
+                    `;
+                } else {
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ ${val} °C is too low!</strong><br>
+                        Rubidium must be higher than Caesium (28°C).
+                    `;
+                }
+            }
+        };
+
+        // ==========================================
+        // MODULE 2: GROUP 7 ACTIVITY
+        // ==========================================
+        const G7Activity = {
+            halogens: [
+                { id: 'F', symbol: 'F', name: 'Fluorine', detail: 'Period 2 • Pale yellow gas' },
+                { id: 'Cl', symbol: 'Cl', name: 'Chlorine', detail: 'Period 3 • Pale green gas' },
+                { id: 'Br', symbol: 'Br', name: 'Bromine', detail: 'Period 4 • Red-brown liquid' },
+                { id: 'I', symbol: 'I', name: 'Iodine', detail: 'Period 5 • Dark grey solid' }
+            ],
+            placed: {},
+
+            init() {
+                this.resetLadder();
+            },
+
+            resetLadder() {
+                this.placed = {};
+                document.getElementById('g7-reactivity-banner').classList.remove('active');
+
+                for (let i = 1; i <= 4; i++) {
+                    const slotContent = document.getElementById(`g7-slot-${i}`);
+                    slotContent.innerHTML = `<span class="slot-empty-text">[ Drop here ]</span>`;
+                    const slotDiv = slotContent.closest('.ladder-slot');
+                    slotDiv.classList.remove('slot-correct', 'slot-wrong');
+                }
+
+                const pool = document.getElementById('g7-pool');
+                pool.innerHTML = '';
+                
+                const shuffled = [...this.halogens].sort(() => Math.random() - 0.5);
+                shuffled.forEach(h => {
+                    const card = this.createCard(h);
+                    pool.appendChild(card);
+                });
+            },
+
+            createCard(h) {
+                const div = document.createElement('div');
+                div.className = 'elem-card g7-card';
+                div.id = `card-g7-${h.id}`;
+                div.innerHTML = `
+                    <div class="elem-symbol">${h.symbol}</div>
+                    <div class="elem-meta">
+                        <span class="elem-name">${h.name}</span>
+                        <span class="elem-detail">${h.detail}</span>
+                    </div>
+                `;
+
+                DND.attachDraggable(div, h, (dropTarget, itemData) => {
+                    const slot = dropTarget.closest('.ladder-slot');
+                    if (slot) {
+                        const slotNum = parseInt(slot.getAttribute('data-slot'));
+                        this.placeHalogen(itemData, slotNum);
+                    }
+                });
+
+                div.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    DND.selectTap({ type: 'g7-elem', data: h, el: div });
+                });
+
+                return div;
+            },
+
+            onSlotTap(slotNum) {
+                if (DND.selectedTapItem && DND.selectedTapItem.type === 'g7-elem') {
+                    this.placeHalogen(DND.selectedTapItem.data, slotNum);
+                    DND.clearTap();
+                }
+            },
+
+            placeHalogen(h, slotNum) {
+                const slotDiv = document.querySelector(`.ladder-slot[data-slot="${slotNum}"][data-expected]`);
+                const expected = slotDiv.getAttribute('data-expected');
+
+                if (h.id === expected) {
+                    SoundEngine.success();
+                    slotDiv.classList.remove('slot-wrong');
+                    slotDiv.classList.add('slot-correct');
+
+                    const slotContent = document.getElementById(`g7-slot-${slotNum}`);
+                    slotContent.innerHTML = `
+                        <div class="elem-card g7-card" style="margin:0; box-shadow:none; cursor:default;">
+                            <div class="elem-symbol">${h.symbol}</div>
+                            <div class="elem-meta">
+                                <span class="elem-name">${h.name}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    const origCard = document.getElementById(`card-g7-${h.id}`);
+                    if (origCard) origCard.remove();
+
+                    this.placed[slotNum] = h.id;
+                    this.checkCompletion();
+                } else {
+                    SoundEngine.wrong();
+                    slotDiv.classList.add('slot-wrong');
+                    setTimeout(() => slotDiv.classList.remove('slot-wrong'), 600);
+                }
+            },
+
+            checkCompletion() {
+                if (Object.keys(this.placed).length === 4) {
+                    document.getElementById('g7-reactivity-banner').classList.add('active');
+                    SoundEngine.success();
+                }
+            },
+
+            checkPrediction(val, btnEl) {
+                const feedback = document.getElementById('g7-predict-feedback');
+                document.querySelectorAll('#view-g7 .btn-predict').forEach(b => b.classList.remove('correct', 'wrong'));
+
+                if (val === 59) {
+                    btnEl.classList.add('correct');
+                    SoundEngine.success();
+                    feedback.className = 'predict-feedback show-correct';
+                    feedback.innerHTML = `
+                        <strong>🎯 Outstanding Prediction! 59 °C fits the trend perfectly.</strong><br>
+                        • Down Group 7, boiling point increases: -188°C &rarr; -34°C &rarr; <strong>59°C</strong> &rarr; 184°C &rarr; 337°C.<br>
+                        • Bromine is a liquid at room temperature (20°C), so its boiling point must be greater than 20°C and lie between Chlorine (-34°C) and Iodine (184°C). Actual boiling point: <strong>59 °C</strong>!
+                    `;
+                } else if (val <= -34) {
+                    btnEl.classList.add('wrong');
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ Too low (${val} °C)!</strong><br>
+                        Down Group 7, boiling point INCREASES. Bromine is below Chlorine (-34°C), so its boiling point must be <em>higher than -34°C</em>!
+                    `;
+                } else {
+                    btnEl.classList.add('wrong');
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ Too high (${val} °C)!</strong><br>
+                        Bromine is above Iodine (184°C) in Group 7, so its boiling point must be <em>lower than 184°C</em>!
+                    `;
+                }
+            },
+
+            testCustomPrediction() {
+                const input = document.getElementById('g7-custom-val');
+                const val = parseFloat(input.value);
+                const feedback = document.getElementById('g7-predict-feedback');
+                if (isNaN(val)) return;
+
+                if (val > -34 && val < 184) {
+                    SoundEngine.success();
+                    feedback.className = 'predict-feedback show-correct';
+                    feedback.innerHTML = `
+                        <strong>🎯 Valid Scientific Prediction! (${val} °C)</strong><br>
+                        Because down Group 7 boiling point increases, Bromine must lie between Chlorine (-34°C) and Iodine (184°C). Your prediction ${val}°C obeys the trend! (Actual experimental value: <strong>59 °C</strong>).
+                    `;
+                } else if (val <= -34) {
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ ${val} °C is too low!</strong><br>
+                        Bromine must have a boiling point higher than Chlorine (-34°C).
+                    `;
+                } else {
+                    SoundEngine.wrong();
+                    feedback.className = 'predict-feedback show-wrong';
+                    feedback.innerHTML = `
+                        <strong>❌ ${val} °C is too high!</strong><br>
+                        Bromine must have a boiling point lower than Iodine (184°C).
+                    `;
+                }
+            }
+        };
+
+        // ==========================================
+        // MODULE 3: TRANSITION VS GROUP 1 SORTER (No hints, No catalyst cards)
+        // ==========================================
+        const VennActivity = {
+            properties: [
+                { id: 'p1', text: 'Soft and easy to cut', target: 'g1' },
+                { id: 'p2', text: 'Hard and strong', target: 'trans' },
+                { id: 'p3', text: 'Low density', target: 'g1' },
+                { id: 'p4', text: 'High density', target: 'trans' },
+                { id: 'p5', text: 'Low melting and boiling points', target: 'g1' },
+                { id: 'p6', text: 'High melting and boiling points', target: 'trans' },
+                { id: 'p7', text: 'Reacts vigorously with cold water', target: 'g1' },
+                { id: 'p8', text: 'Reacts very slowly or does not react with water', target: 'trans' },
+                { id: 'p9', text: 'Good conductors of heat and electricity', target: 'both' }
+            ],
+            assigned: {},
+
+            init() {
+                this.reset();
+            },
+
+            reset() {
+                this.assigned = {};
+                document.getElementById('sorter-banner').classList.remove('active');
+                document.getElementById('bucket-g1-items').innerHTML = '';
+                document.getElementById('bucket-both-items').innerHTML = '';
+                document.getElementById('bucket-trans-items').innerHTML = '';
+
+                const pool = document.getElementById('sorter-pool');
+                pool.innerHTML = '';
+
+                const shuffled = [...this.properties].sort(() => Math.random() - 0.5);
+                shuffled.forEach(p => {
+                    const card = this.createCard(p);
+                    pool.appendChild(card);
+                });
+
+                this.updateCounters();
+            },
+
+            createCard(p) {
+                const div = document.createElement('div');
+                div.className = 'property-card';
+                div.id = `prop-${p.id}`;
+                div.innerHTML = `<span>${p.text}</span>`;
+
+                DND.attachDraggable(div, p, (dropTarget, itemData) => {
+                    const zone = dropTarget.closest('.bucket-zone');
+                    if (zone) {
+                        const bucketId = zone.getAttribute('data-bucket');
+                        this.dropIntoBucket(itemData, bucketId);
+                    }
+                });
+
+                div.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    DND.selectTap({ type: 'prop-card', data: p, el: div });
+                });
+
+                return div;
+            },
+
+            onBucketTap(bucketId) {
+                if (DND.selectedTapItem && DND.selectedTapItem.type === 'prop-card') {
+                    this.dropIntoBucket(DND.selectedTapItem.data, bucketId);
+                    DND.clearTap();
+                }
+            },
+
+            dropIntoBucket(p, bucketId) {
+                SoundEngine.pop();
+                this.assigned[p.id] = bucketId;
+
+                const cardEl = document.getElementById(`prop-${p.id}`);
+                if (cardEl) cardEl.remove();
+
+                const targetContainer = document.getElementById(`bucket-${bucketId}-items`);
+                const newCard = this.createCard(p);
+                newCard.classList.remove('correct', 'wrong');
+                targetContainer.appendChild(newCard);
+
+                this.updateCounters();
+            },
+
+            updateCounters() {
+                let g1Count = 0, bothCount = 0, transCount = 0;
+                Object.values(this.assigned).forEach(b => {
+                    if (b === 'g1') g1Count++;
+                    if (b === 'both') bothCount++;
+                    if (b === 'trans') transCount++;
+                });
+
+                document.getElementById('count-g1').textContent = g1Count;
+                document.getElementById('count-both').textContent = bothCount;
+                document.getElementById('count-trans').textContent = transCount;
+
+                const remaining = this.properties.length - Object.keys(this.assigned).length;
+                document.getElementById('sorter-count').textContent = `${remaining} cards remaining in pool`;
+            },
+
+            checkAll() {
+                let allCorrect = true;
+                this.properties.forEach(p => {
+                    const cardEl = document.getElementById(`prop-${p.id}`);
+                    if (!cardEl) return;
+
+                    const currentBucket = this.assigned[p.id];
+                    if (currentBucket === p.target) {
+                        cardEl.classList.add('correct');
+                        cardEl.classList.remove('wrong');
+                    } else {
+                        cardEl.classList.add('wrong');
+                        cardEl.classList.remove('correct');
+                        allCorrect = false;
+                    }
+                });
+
+                if (allCorrect && Object.keys(this.assigned).length === this.properties.length) {
+                    SoundEngine.success();
+                    document.getElementById('sorter-banner').classList.add('active');
+                } else {
+                    SoundEngine.wrong();
+                }
+            }
+        };
+
+                // ==========================================
+        // MODULE 4: ANIMATED ATOMIC SHIELDING & DISTANCE SIMULATION
+        // ==========================================
+        const AtomicSim = {
+            canvas: null,
+            ctx: null,
+            animId: null,
+            time: 0,
+
+            // Atom Data Definitions
+            dataG1: [
+                {
+                    id: 'Li', name: 'Lithium', z: 3, shells: [2, 1], radiusPm: 152,
+                    distDesc: '152 pm (Very Close)', shieldDesc: '1 inner shell (2 e⁻) — Minimum',
+                    forceVal: 88, forceText: 'VERY STRONG HOLD', gaugeColor: '#22c55e',
+                    easeVal: 15, easeText: 'HARD TO REMOVE', easeColor: '#ef4444',
+                    pullSpeed: 0.010, snapBack: true
+                },
+                {
+                    id: 'Na', name: 'Sodium', z: 11, shells: [2, 8, 1], radiusPm: 186,
+                    distDesc: '186 pm (Moderate)', shieldDesc: '2 inner shells (10 e⁻) — Low',
+                    forceVal: 64, forceText: 'MODERATE HOLD', gaugeColor: '#eab308',
+                    easeVal: 42, easeText: 'MODERATE TO REMOVE', easeColor: '#eab308',
+                    pullSpeed: 0.018, snapBack: false
+                },
+                {
+                    id: 'K', name: 'Potassium', z: 19, shells: [2, 8, 8, 1], radiusPm: 227,
+                    distDesc: '227 pm (Far)', shieldDesc: '3 inner shells (18 e⁻) — High',
+                    forceVal: 38, forceText: 'WEAK HOLD', gaugeColor: '#f97316',
+                    easeVal: 70, easeText: 'EASY TO REMOVE', easeColor: '#4ade80',
+                    pullSpeed: 0.030, snapBack: false
+                },
+                {
+                    id: 'Rb', name: 'Rubidium', z: 37, shells: [2, 8, 18, 8, 1], radiusPm: 248,
+                    distDesc: '248 pm (Very Far)', shieldDesc: '4 inner shells (36 e⁻) — Very High',
+                    forceVal: 22, forceText: 'VERY WEAK HOLD', gaugeColor: '#ef4444',
+                    easeVal: 86, easeText: 'VERY EASY TO REMOVE', easeColor: '#22c55e',
+                    pullSpeed: 0.045, snapBack: false
+                },
+                {
+                    id: 'Cs', name: 'Caesium', z: 55, shells: [2, 8, 18, 18, 8, 1], radiusPm: 265,
+                    distDesc: '265 pm (Greatest Distance)', shieldDesc: '5 inner shells (54 e⁻) — Maximum',
+                    forceVal: 10, forceText: 'EXTREMELY WEAK HOLD', gaugeColor: '#ef4444',
+                    easeVal: 98, easeText: 'EFFORTLESS TO REMOVE!', easeColor: '#22c55e',
+                    pullSpeed: 0.065, snapBack: false
+                }
+            ],
+
+            dataG7: [
+                {
+                    id: 'F', name: 'Fluorine', z: 9, shells: [2, 7], radiusPm: 71,
+                    distDesc: '71 pm (Very Close)', shieldDesc: '1 inner shell (2 e⁻) — Minimum',
+                    forceVal: 95, forceText: 'VERY STRONG PULL', gaugeColor: '#22c55e',
+                    easeVal: 96, easeText: 'ATTACHES VERY EASILY!', easeColor: '#22c55e',
+                    attachSpeed: 0.055,hesitate: false
+                },
+                {
+                    id: 'Cl', name: 'Chlorine', z: 17, shells: [2, 8, 7], radiusPm: 99,
+                    distDesc: '99 pm (Close)', shieldDesc: '2 inner shells (10 e⁻) — Low',
+                    forceVal: 72, forceText: 'STRONG PULL', gaugeColor: '#4ade80',
+                    easeVal: 75, easeText: 'ATTACHES EASILY', easeColor: '#4ade80',
+                    attachSpeed: 0.035, hesitate: false
+                },
+                {
+                    id: 'Br', name: 'Bromine', z: 35, shells: [2, 8, 18, 7], radiusPm: 114,
+                    distDesc: '114 pm (Farther)', shieldDesc: '3 inner shells (28 e⁻) — High',
+                    forceVal: 42, forceText: 'WEAK PULL', gaugeColor: '#eab308',
+                    easeVal: 40, easeText: 'SLOWER / HARDER TO ATTACH', easeColor: '#f97316',
+                    attachSpeed: 0.016, hesitate: true
+                },
+                {
+                    id: 'I', name: 'Iodine', z: 53, shells: [2, 8, 18, 18, 7], radiusPm: 133,
+                    distDesc: '133 pm (Greatest Distance)', shieldDesc: '4 inner shells (46 e⁻) — Very High',
+                    forceVal: 18, forceText: 'VERY WEAK PULL', gaugeColor: '#ef4444',
+                    easeVal: 15, easeText: 'VERY DIFFICULT TO ATTACH!', easeColor: '#ef4444',
+                    attachSpeed: 0.008, hesitate: true
+                }
+            ],
+
+            currentGroup: 'g1',
+            currentElemIdx: 0,
+            showShielding: true,
+            showRuler: true,
+            showBeam: true,
+
+            // Animation state
+            animState: 'idle', // 'idle' | 'running' | 'done'
+            animProgress: 0,   // 0 to 1
+            snapPhase: 0,      // used for Li resistance struggle
+
+            init() {
+                this.canvas = document.getElementById('atom-canvas');
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+
+                this.renderElemButtons();
+                this.updateMetrics();
+
+                window.addEventListener('resize', () => this.resizeCanvas());
+                this.resizeCanvas();
+            },
+
+            onTabActivated() {
+                if (!this.canvas) this.init();
+                this.resizeCanvas();
+                if (!this.animId) {
+                    this.loop();
+                }
+            },
+
+            resizeCanvas() {
+                if (!this.canvas) return;
+                const rect = this.canvas.getBoundingClientRect();
+                if (rect.width === 0) return;
+                const dpr = window.devicePixelRatio || 1;
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            },
+
+            switchGroup(grp) {
+                SoundEngine.pop();
+                this.currentGroup = grp;
+                this.currentElemIdx = 0;
+                this.resetTest(false);
+
+                const b1 = document.getElementById('btn-grp-1');
+                const b7 = document.getElementById('btn-grp-7');
+                if (grp === 'g1') {
+                    b1.className = 'btn-group-toggle active g1-active';
+                    b7.className = 'btn-group-toggle';
+                } else {
+                    b1.className = 'btn-group-toggle';
+                    b7.className = 'btn-group-toggle active g7-active';
+                }
+
+                this.renderElemButtons();
+                this.updateMetrics();
+            },
+
+            selectElement(idx) {
+                SoundEngine.pop();
+                this.currentElemIdx = idx;
+                this.resetTest(false);
+                this.renderElemButtons();
+                this.updateMetrics();
+            },
+
+            resetTest(playSound = true) {
+                if (playSound) SoundEngine.pop();
+                this.animState = 'idle';
+                this.animProgress = 0;
+                this.snapPhase = 0;
+                const d = this.getCurrentData();
+                const toast = document.getElementById('sim-toast');
+                if (toast) {
+                    toast.style.borderColor = '#38bdf8';
+                    if (this.currentGroup === 'g1') {
+                        toast.textContent = `💡 Click "Pull Outer Electron Away" (or tap the atom) to see how easily ${d.id} loses its outer electron!`;
+                    } else {
+                        toast.textContent = `💡 Click "Send Incoming Electron" (or tap the atom) to see how easily ${d.id} attracts an electron!`;
+                    }
+                }
+                const btnText = document.getElementById('btn-action-text');
+                if (btnText) {
+                    btnText.textContent = this.currentGroup === 'g1'
+                        ? `Pull Outer Electron from ${d.id}`
+                        : `Send Incoming Electron to ${d.id}`;
+                }
+            },
+
+            getCurrentData() {
+                const arr = this.currentGroup === 'g1' ? this.dataG1 : this.dataG7;
+                return arr[this.currentElemIdx];
+            },
+
+            renderElemButtons() {
+                const container = document.getElementById('sim-elem-btns');
+                container.innerHTML = '';
+                const arr = this.currentGroup === 'g1' ? this.dataG1 : this.dataG7;
+                container.style.gridTemplateColumns = `repeat(${arr.length}, 1fr)`;
+
+                arr.forEach((el, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `btn-atom-sel ${idx === this.currentElemIdx ? 'active' : ''}`;
+                    btn.innerHTML = `
+                        <span style="font-size: 1.15rem; font-weight: 900;">${el.id}</span>
+                        <span style="font-size: 0.7rem; color: #94a3b8;">${el.shells.length} shells</span>
+                    `;
+                    btn.onclick = () => this.selectElement(idx);
+                    container.appendChild(btn);
+                });
+            },
+
+            updateMetrics() {
+                const d = this.getCurrentData();
+                const innerShells = d.shells.length - 1;
+                const innerElec = d.shells.slice(0, -1).reduce((a, b) => a + b, 0);
+
+                document.getElementById('canvas-atom-title').textContent = `${d.name} (${d.id}) • ${d.shells.length} Shells (${d.shells.join(',')})`;
+                document.getElementById('canvas-radius-badge').textContent = `Distance (r): ${d.radiusPm} pm`;
+
+                document.getElementById('metric-config').textContent = d.shells.join(', ');
+                document.getElementById('metric-shells').textContent = `${d.shells.length} shells (${innerShells} inner shielding)`;
+                document.getElementById('metric-shield-count').textContent = d.shieldDesc;
+                document.getElementById('metric-distance').textContent = d.distDesc;
+
+                const forceText = document.getElementById('metric-force-text');
+                forceText.textContent = d.forceText;
+                forceText.style.color = d.gaugeColor;
+
+                const gauge = document.getElementById('metric-force-gauge');
+                gauge.style.width = `${d.forceVal}%`;
+                gauge.style.background = d.gaugeColor;
+
+                const easeLabel = document.getElementById('metric-ease-label');
+                const easeText = document.getElementById('metric-ease-text');
+                const easeGauge = document.getElementById('metric-ease-gauge');
+                easeLabel.textContent = this.currentGroup === 'g1'
+                    ? 'Ease of Removing Outer Electron:'
+                    : 'Ease of Attaching Incoming Electron:';
+                easeText.textContent = d.easeText;
+                easeText.style.color = d.easeColor;
+                easeGauge.style.width = `${d.easeVal}%`;
+                easeGauge.style.background = d.easeColor;
+
+                const btnActionIcon = document.getElementById('btn-action-icon');
+                const btnActionText = document.getElementById('btn-action-text');
+                const expl = document.getElementById('action-expl');
+                if (this.currentGroup === 'g1') {
+                    btnActionIcon.textContent = '🖐️';
+                    btnActionText.textContent = `Pull Outer Electron from ${d.id}`;
+                    expl.innerHTML = `<strong>${d.name}:</strong> ${innerShells} inner shell(s) (${innerElec} e⁻) &amp; distance ${d.radiusPm} pm &rarr; <strong>${d.easeText}</strong>`;
+                } else {
+                    btnActionIcon.textContent = '⚡';
+                    btnActionText.textContent = `Send Incoming Electron to ${d.id}`;
+                    expl.innerHTML = `<strong>${d.name}:</strong> ${innerShells} inner shell(s) (${innerElec} e⁻) &amp; distance ${d.radiusPm} pm &rarr; <strong>${d.easeText}</strong>`;
+                }
+            },
+
+            toggleShielding() {
+                SoundEngine.pop();
+                this.showShielding = !this.showShielding;
+                const btn = document.getElementById('btn-toggle-shield');
+                btn.className = `switch-btn ${this.showShielding ? 'on' : ''}`;
+                btn.textContent = this.showShielding ? 'ON' : 'OFF';
+            },
+
+            toggleRuler() {
+                SoundEngine.pop();
+                this.showRuler = !this.showRuler;
+                const btn = document.getElementById('btn-toggle-ruler');
+                btn.className = `switch-btn ${this.showRuler ? 'on' : ''}`;
+                btn.textContent = this.showRuler ? 'ON' : 'OFF';
+            },
+
+            toggleBeam() {
+                SoundEngine.pop();
+                this.showBeam = !this.showBeam;
+                const btn = document.getElementById('btn-toggle-beam');
+                btn.className = `switch-btn ${this.showBeam ? 'on' : ''}`;
+                btn.textContent = this.showBeam ? 'ON' : 'OFF';
+            },
+
+            triggerInteractiveTest() {
+                const d = this.getCurrentData();
+                if (this.animState === 'done') {
+                    this.resetTest(true);
+                    return;
+                }
+                this.animState = 'running';
+                this.animProgress = 0;
+                this.snapPhase = 0;
+                SoundEngine.whoosh();
+
+                const toast = document.getElementById('sim-toast');
+                if (this.currentGroup === 'g1') {
+                    if (d.shells.length <= 2) {
+                        toast.textContent = `🔒 Pulling ${d.id}'s outer electron... Notice the strong nuclear hold resisting removal!`;
+                        toast.style.borderColor = '#f59e0b';
+                    } else if (d.shells.length === 3) {
+                        toast.textContent = `⚡ Pulling ${d.id}'s outer electron... Moderate distance & 2 shielding shells make it easier than Li!`;
+                        toast.style.borderColor = '#eab308';
+                    } else {
+                        toast.textContent = `🚀 Pulling ${d.id}'s outer electron... Great distance & strong shielding let it break free effortlessly!`;
+                        toast.style.borderColor = '#22c55e';
+                    }
+                } else {
+                    if (d.shells.length <= 2) {
+                        toast.textContent = `🧲 Incoming e⁻ approaching ${d.id}... Short distance & minimum shielding snap it in immediately!`;
+                        toast.style.borderColor = '#22c55e';
+                    } else if (d.shells.length === 3) {
+                        toast.textContent = `🧲 Incoming e⁻ approaching ${d.id}... Strong nuclear pull captures the electron smoothly!`;
+                        toast.style.borderColor = '#4ade80';
+                    } else {
+                        toast.textContent = `⚠️ Incoming e⁻ approaching ${d.id}... Large distance & high inner-shell shielding repel and slow it down!`;
+                        toast.style.borderColor = '#ef4444';
+                    }
+                }
+            },
+
+            loop() {
+                this.time += 0.022;
+                this.updateAnimation();
+                this.draw();
+                this.animId = requestAnimationFrame(() => this.loop());
+            },
+
+            updateAnimation() {
+                if (this.animState !== 'running') return;
+                const d = this.getCurrentData();
+
+                if (this.currentGroup === 'g1') {
+                    this.animProgress += d.pullSpeed;
+                    if (this.animProgress >= 1) {
+                        this.animProgress = 1;
+                        this.animState = 'done';
+                        if (d.easeVal >= 60) {
+                            SoundEngine.success();
+                        } else {
+                            SoundEngine.pop();
+                        }
+                        const toast = document.getElementById('sim-toast');
+                        if (d.shells.length <= 2) {
+                            toast.textContent = `🔒 ${d.name}: Took HIGH effort/energy to remove e⁻ (short distance + minimum shielding). Tap to reset!`;
+                        } else if (d.shells.length === 3) {
+                            toast.textContent = `⚡ ${d.name}: Removed with moderate effort (${d.shells.length} shells). Tap to reset!`;
+                        } else {
+                            toast.textContent = `🎉 ${d.name}: Outer e⁻ removed EFFORTLESSLY! Greater distance + ${d.shells.length - 1} shielding shells = Very weak hold!`;
+                        }
+                        document.getElementById('btn-action-text').textContent = '🔄 Replay Animation';
+                    }
+                } else {
+                    this.animProgress += d.attachSpeed;
+                    if (this.animProgress >= 1) {
+                        this.animProgress = 1;
+                        this.animState = 'done';
+                        if (d.easeVal >= 60) {
+                            SoundEngine.success();
+                        } else {
+                            SoundEngine.wrong();
+                        }
+                        const toast = document.getElementById('sim-toast');
+                        if (d.shells.length <= 2) {
+                            toast.textContent = `🎉 ${d.name}: Incoming e⁻ attached INSTANTLY! Short distance + minimum shielding = Strong pull!`;
+                        } else if (d.shells.length === 3) {
+                            toast.textContent = `✅ ${d.name}: Incoming e⁻ attached easily to form Cl⁻ (2,8,8). Tap to replay!`;
+                        } else {
+                            toast.textContent = `⚠️ ${d.name}: Struggled to attach! Greater distance + ${d.shells.length - 1} shielding shells weaken nuclear pull.`;
+                        }
+                        document.getElementById('btn-action-text').textContent = '🔄 Replay Animation';
+                    }
+                }
+            },
+
+            drawArrow(ctx, x1, y1, x2, y2, color, width, headLen = 9) {
+                const angle = Math.atan2(y2 - y1, x2 - x1);
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.fillStyle = color;
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI / 6), y2 - headLen * Math.sin(angle - Math.PI / 6));
+                ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI / 6), y2 - headLen * Math.sin(angle + Math.PI / 6));
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            },
+
+            drawSpring(ctx, x1, y1, x2, y2, coils, amp, color, width) {
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const dist = Math.hypot(dx, dy);
+                if (dist < 2) return;
+                const nx = dx / dist;
+                const ny = dy / dist;
+                const px = -ny;
+                const py = nx;
+
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                const steps = coils * 2;
+                for (let i = 1; i < steps; i++) {
+                    const t = i / steps;
+                    const side = (i % 2 === 0 ? 1 : -1) * amp;
+                    ctx.lineTo(x1 + dx * t + px * side, y1 + dy * t + py * side);
+                }
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+                ctx.restore();
+            },
+
+            draw() {
+                if (!this.canvas || !this.ctx) return;
+                const rect = this.canvas.getBoundingClientRect();
+                const w = rect.width;
+                const h = rect.height;
+                if (w === 0 || h === 0) return;
+
+                const d = this.getCurrentData();
+                const numShells = d.shells.length;
+                const innerShells = numShells - 1;
+
+                // Shift atom center slightly left so the right-side action zone (removing/incoming e-) has plenty of room
+                const cx = w * 0.43;
+                const cy = h * 0.52;
+
+                this.ctx.clearRect(0, 0, w, h);
+
+                // TRUE PROPORTIONAL SHELL SPACING (so 2-shell atom is visibly small and 6-shell atom is visibly huge!)
+                const maxPossibleR = Math.min(w * 0.37, h * 0.41);
+                const baseR = 24;
+                const shellStep = (maxPossibleR - baseR) / 6; // fixed step per shell!
+                const getShellRadius = (s) => baseR + s * shellStep;
+                const outerR = getShellRadius(numShells);
+
+                // 0. Faint Reference Circle of Period 2 (2 shells) when viewing larger atoms so students see distance growth
+                if (numShells > 2) {
+                    const refR = getShellRadius(2);
+                    this.ctx.save();
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, refR, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = 'rgba(148, 163, 184, 0.22)';
+                    this.ctx.setLineDash([2, 4]);
+                    this.ctx.lineWidth = 1;
+                    this.ctx.stroke();
+                    this.ctx.restore();
+                }
+
+                // 1. Draw Shielding Zone (Inner Shells Repulsion Cloud)
+                if (this.showShielding && innerShells >= 1) {
+                    const innerOuterR = getShellRadius(innerShells);
+                    const shieldGrad = this.ctx.createRadialGradient(cx, cy, baseR * 0.8, cx, cy, innerOuterR + shellStep * 0.32);
+                    const shieldIntensity = Math.min(0.38, 0.08 + innerShells * 0.065);
+                    shieldGrad.addColorStop(0, 'rgba(239, 68, 68, 0.02)');
+                    shieldGrad.addColorStop(0.7, `rgba(239, 68, 68, ${shieldIntensity * 0.7})`);
+                    shieldGrad.addColorStop(0.95, `rgba(168, 85, 247, ${shieldIntensity})`);
+                    shieldGrad.addColorStop(1, 'rgba(168, 85, 247, 0)');
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, innerOuterR + shellStep * 0.32, 0, Math.PI * 2);
+                    this.ctx.fillStyle = shieldGrad;
+                    this.ctx.fill();
+                }
+
+                // 2. Draw Concentric Shells & Inner Orbiting Electrons
+                for (let s = 1; s <= numShells; s++) {
+                    const r = getShellRadius(s);
+                    const isValence = (s === numShells);
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    if (isValence) {
+                        this.ctx.strokeStyle = this.currentGroup === 'g1' ? 'rgba(251, 146, 60, 0.85)' : 'rgba(16, 185, 129, 0.85)';
+                        this.ctx.lineWidth = 2.2;
+                        this.ctx.setLineDash([]);
+                    } else {
+                        this.ctx.strokeStyle = this.showShielding ? 'rgba(248, 113, 113, 0.55)' : 'rgba(148, 163, 184, 0.35)';
+                        this.ctx.lineWidth = 1.4;
+                        this.ctx.setLineDash(this.showShielding ? [5, 5] : []);
+                    }
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+
+                    // Draw electrons on this shell
+                    const electronCount = d.shells[s - 1];
+                    const speed = (0.35 / s) * (s % 2 === 0 ? -1 : 1);
+
+                    if (!isValence) {
+                        // Inner shell electrons (orbiting + repulsive shield)
+                        for (let eIdx = 0; eIdx < electronCount; eIdx++) {
+                            const ang = (eIdx / electronCount) * Math.PI * 2 + this.time * speed;
+                            const ex = cx + Math.cos(ang) * r;
+                            const ey = cy + Math.sin(ang) * r;
+
+                            this.ctx.beginPath();
+                            this.ctx.arc(ex, ey, 4.2, 0, Math.PI * 2);
+                            this.ctx.fillStyle = '#38bdf8';
+                            this.ctx.shadowColor = '#0284c7';
+                            this.ctx.shadowBlur = 5;
+                            this.ctx.fill();
+                            this.ctx.shadowBlur = 0;
+                        }
+                    } else {
+                        // Valence shell electrons!
+                        if (this.currentGroup === 'g1') {
+                            // Group 1 has 1 outer electron positioned at angle 0 (right side) with gentle bobbing
+                            const bobAngle = this.animState === 'idle' ? Math.sin(this.time * 1.5) * 0.06 : 0;
+                            let ex = cx + Math.cos(bobAngle) * r;
+                            let ey = cy + Math.sin(bobAngle) * r;
+
+                            // Calculate removal displacement if animation is running or done
+                            let pullOffset = 0;
+                            if (this.animState !== 'idle') {
+                                const p = this.animProgress;
+                                if (d.snapBack && p < 0.65) {
+                                    // Lithium struggles and vibrates hard before breaking free!
+                                    const struggle = Math.sin(p * Math.PI * 6) * 8;
+                                    pullOffset = (p / 0.65) * 28 + Math.abs(struggle);
+                                    ey += Math.sin(this.time * 25) * 2.5;
+                                } else if (d.snapBack) {
+                                    const p2 = (p - 0.65) / 0.35;
+                                    pullOffset = 28 + p2 * p2 * (w * 0.42 - outerR);
+                                } else {
+                                    // Smooth acceleration outward (faster for K, Rb, Cs)
+                                    pullOffset = Math.pow(p, 1.3) * (w * 0.44 - outerR);
+                                }
+                            }
+                            ex += pullOffset;
+
+                            // Draw Shielding Repulsion Chevrons from inner shells pushing outward on the valence electron
+                            if (this.showShielding && innerShells >= 1) {
+                                for (let is = 1; is <= innerShells; is++) {
+                                    const ir = getShellRadius(is);
+                                    const pulse = (this.time * 18) % 12;
+                                    const rx = cx + ir + pulse * 0.4;
+                                    if (rx < ex - 14) {
+                                        this.drawArrow(this.ctx, cx + ir - 4, cy - 12, cx + ir + 12, cy - 12, 'rgba(248, 113, 113, 0.85)', 2, 6);
+                                    }
+                                }
+                                // Shielding label
+                                const midShieldX = cx + getShellRadius(Math.ceil(innerShells / 2));
+                                this.ctx.fillStyle = '#fca5a5';
+                                this.ctx.font = 'bold 11px system-ui';
+                                this.ctx.textAlign = 'center';
+                                this.ctx.fillText(`🛡️ Shielding repulsion (${innerShells} inner shell${innerShells > 1 ? 's' : ''})`, midShieldX, cy - 22);
+                            }
+
+                            // Draw Nuclear Attraction Spring / Vector (if not completely broken free)
+                            const tetherBroken = (this.animState === 'done') || (this.animProgress > (d.snapBack ? 0.68 : 0.35));
+                            if (this.showBeam && !tetherBroken) {
+                                const coils = Math.max(4, numShells * 2);
+                                const springWidth = Math.max(1.2, (d.forceVal / 100) * 4.5);
+                                const springAlpha = Math.max(0.25, d.forceVal / 100);
+                                this.drawSpring(this.ctx, cx + 18, cy, ex - 8, ey, coils, 5, `rgba(250, 204, 21, ${springAlpha})`, springWidth);
+
+                                // Inward Pull Arrow near the electron
+                                const pullLen = 18 + (d.forceVal / 100) * 28;
+                                this.drawArrow(this.ctx, ex - 10, ey + 15, ex - 10 - pullLen, ey + 15, '#facc15', Math.max(1.5, springWidth), 8);
+                                this.ctx.fillStyle = '#fef08a';
+                                this.ctx.font = 'bold 11px system-ui';
+                                this.ctx.textAlign = 'center';
+                                this.ctx.fillText(`Nuclear Pull (${d.forceText})`, (cx + ex) / 2, cy + 30);
+                            } else if (tetherBroken) {
+                                // Show snapped message
+                                this.ctx.fillStyle = '#4ade80';
+                                this.ctx.font = 'bold 12px system-ui';
+                                this.ctx.textAlign = 'center';
+                                this.ctx.fillText(`✂️ Attraction overcome! e⁻ removed (${d.id}⁺ formed)`, cx + outerR + 55, cy - 24);
+                            }
+
+                            // Draw External Pulling Force Arrow when removing
+                            if (this.animState !== 'idle') {
+                                this.drawArrow(this.ctx, ex + 10, ey, ex + 44, ey, '#38bdf8', 3, 9);
+                                this.ctx.fillStyle = '#7dd3fc';
+                                this.ctx.font = 'bold 11px system-ui';
+                                this.ctx.textAlign = 'left';
+                                this.ctx.fillText('Pulling e⁻', ex + 14, ey - 10);
+                            }
+
+                            // Draw the Group 1 Valence Electron (#e8590c / orange)
+                            this.ctx.beginPath();
+                            this.ctx.arc(ex, ey, 8, 0, Math.PI * 2);
+                            this.ctx.fillStyle = '#fb923c';
+                            this.ctx.shadowColor = '#ea580c';
+                            this.ctx.shadowBlur = 14;
+                            this.ctx.fill();
+                            this.ctx.shadowBlur = 0;
+                            this.ctx.strokeStyle = '#fff';
+                            this.ctx.lineWidth = 1.5;
+                            this.ctx.stroke();
+
+                            this.ctx.fillStyle = '#fff';
+                            this.ctx.font = 'bold 9px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.textBaseline = 'middle';
+                            this.ctx.fillText('e⁻', ex, ey);
+
+                        } else {
+                            // GROUP 7: 7 outer electrons + 1 empty slot at angle 0 + Incoming Electron animation!
+                            // Place 7 outer electrons at slots 1..7 of 8 around the circle, leaving slot 0 (angle 0, right side) as the empty vacancy!
+                            for (let slot = 1; slot < 8; slot++) {
+                                const ang = (slot / 8) * Math.PI * 2 + Math.sin(this.time * 0.8) * 0.03;
+                                const gx = cx + Math.cos(ang) * r;
+                                const gy = cy + Math.sin(ang) * r;
+
+                                this.ctx.beginPath();
+                                this.ctx.arc(gx, gy, 6, 0, Math.PI * 2);
+                                this.ctx.fillStyle = '#007d59';
+                                this.ctx.shadowColor = '#10b981';
+                                this.ctx.shadowBlur = 8;
+                                this.ctx.fill();
+                                this.ctx.shadowBlur = 0;
+                                this.ctx.strokeStyle = '#a7f3d0';
+                                this.ctx.lineWidth = 1;
+                                this.ctx.stroke();
+                            }
+
+                            // Slot 0 (angle 0): The Empty Vacancy on the outer shell
+                            const vacX = cx + r;
+                            const vacY = cy;
+
+                            this.ctx.save();
+                            this.ctx.beginPath();
+                            this.ctx.arc(vacX, vacY, 8.5, 0, Math.PI * 2);
+                            this.ctx.strokeStyle = '#34d399';
+                            this.ctx.lineWidth = 2;
+                            this.ctx.setLineDash([3, 3]);
+                            this.ctx.stroke();
+                            this.ctx.restore();
+
+                            // Incoming electron position (starts on the right side of canvas, moves into vacX, vacY)
+                            const startX = Math.min(w - 42, cx + maxPossibleR + 95);
+                            const startY = cy;
+                            let incX = startX;
+                            let incY = startY;
+
+                            if (this.animState === 'idle') {
+                                incX = startX + Math.sin(this.time * 3) * 4;
+                            } else if (this.animState === 'running') {
+                                const p = this.animProgress;
+                                if (d.hesitate && p < 0.7) {
+                                    // Br / I: Incoming electron is slowed down & pushed back by shielding repulsion!
+                                    const wobble = Math.sin(p * Math.PI * 8) * (innerShells * 2.2);
+                                    incX = startX - (startX - vacX) * (p * 0.75) + wobble;
+                                    incY = startY + Math.cos(this.time * 18) * 3;
+                                } else if (d.hesitate) {
+                                    const p2 = (p - 0.7) / 0.3;
+                                    const fromX = startX - (startX - vacX) * 0.525;
+                                    incX = fromX - (fromX - vacX) * p2;
+                                } else {
+                                    // F / Cl: Strong pull accelerates incoming electron right into the vacancy!
+                                    const easeIn = Math.pow(p, 1.6);
+                                    incX = startX - (startX - vacX) * easeIn;
+                                }
+                            } else if (this.animState === 'done') {
+                                incX = vacX;
+                                incY = vacY;
+                            }
+
+                            // Draw Shielding Repulsion Arrows pushing outward against the incoming electron
+                            if (this.showShielding && innerShells >= 1) {
+                                for (let is = 1; is <= innerShells; is++) {
+                                    const ir = getShellRadius(is);
+                                    this.drawArrow(this.ctx, cx + ir - 4, cy - 12, cx + ir + 12, cy - 12, 'rgba(248, 113, 113, 0.85)', 2, 6);
+                                }
+                                const midShieldX = cx + getShellRadius(Math.ceil(innerShells / 2));
+                                this.ctx.fillStyle = '#fca5a5';
+                                this.ctx.font = 'bold 11px system-ui';
+                                this.ctx.textAlign = 'center';
+                                this.ctx.fillText(`🛡️ Shielding repulsion (${innerShells} inner shell${innerShells > 1 ? 's' : ''})`, midShieldX, cy - 22);
+                            }
+
+                            // Draw Nuclear Attraction Beam reaching out to the incoming electron
+                            if (this.showBeam && this.animState !== 'done') {
+                                const beamAlpha = Math.max(0.18, d.forceVal / 100);
+                                const beamWidth = Math.max(1.2, (d.forceVal / 100) * 5);
+
+                                this.ctx.save();
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(cx + 18, cy);
+                                this.ctx.lineTo(incX - 10, incY);
+                                this.ctx.strokeStyle = `rgba(250, 204, 21, ${beamAlpha})`;
+                                this.ctx.lineWidth = beamWidth;
+                                this.ctx.setLineDash([6, 4]);
+                                this.ctx.stroke();
+                                this.ctx.restore();
+
+                                // Inward Pull Arrow on the incoming electron
+                                const pullLen = 16 + (d.forceVal / 100) * 34;
+                                this.drawArrow(this.ctx, incX - 12, incY, incX - 12 - pullLen, incY, '#facc15', Math.max(1.8, beamWidth), 8);
+
+                                this.ctx.fillStyle = '#fef08a';
+                                this.ctx.font = 'bold 11px system-ui';
+                                this.ctx.textAlign = 'center';
+                                this.ctx.fillText(`Attraction Pull: ${d.forceText}`, (vacX + incX) / 2, cy + 28);
+                            } else if (this.animState === 'done') {
+                                // Attached flash ring!
+                                this.ctx.beginPath();
+                                this.ctx.arc(vacX, vacY, 14 + Math.sin(this.time * 6) * 3, 0, Math.PI * 2);
+                                this.ctx.strokeStyle = 'rgba(52, 211, 153, 0.7)';
+                                this.ctx.lineWidth = 2;
+                                this.ctx.stroke();
+
+                                this.ctx.fillStyle = '#4ade80';
+                                this.ctx.font = 'bold 12px system-ui';
+                                this.ctx.textAlign = 'left';
+                                this.ctx.fillText(`✅ Attached! ${d.id}⁻ ion formed`, vacX + 16, vacY + 4);
+                            }
+
+                            // Draw Incoming Electron Dot
+                            this.ctx.beginPath();
+                            this.ctx.arc(incX, incY, 8.5, 0, Math.PI * 2);
+                            this.ctx.fillStyle = '#10b981';
+                            this.ctx.shadowColor = '#34d399';
+                            this.ctx.shadowBlur = 15;
+                            this.ctx.fill();
+                            this.ctx.shadowBlur = 0;
+                            this.ctx.strokeStyle = '#ffffff';
+                            this.ctx.lineWidth = 2;
+                            this.ctx.stroke();
+
+                            this.ctx.fillStyle = '#ffffff';
+                            this.ctx.font = 'bold 9px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.textBaseline = 'middle';
+                            this.ctx.fillText('e⁻', incX, incY);
+
+                            if (this.animState !== 'done') {
+                                this.ctx.fillStyle = '#6ee7b7';
+                                this.ctx.font = 'bold 11px system-ui';
+                                this.ctx.textAlign = 'center';
+                                this.ctx.fillText('Incoming e⁻', incX, incY - 16);
+                            }
+                        }
+                    }
+                }
+
+                // 3. Draw Distance Caliper ($r$) below the horizontal axis if enabled
+                if (this.showRuler) {
+                    const calY = cy + outerR + 22;
+                    if (calY < h - 25) {
+                        this.ctx.save();
+                        this.ctx.strokeStyle = '#38bdf8';
+                        this.ctx.lineWidth = 2;
+                        // Vertical drop guides
+                        this.ctx.setLineDash([2, 3]);
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, cy + 20);
+                        this.ctx.lineTo(cx, calY + 5);
+                        this.ctx.moveTo(cx + outerR, cy + 10);
+                        this.ctx.lineTo(cx + outerR, calY + 5);
+                        this.ctx.stroke();
+
+                        // Horizontal caliper bar
+                        this.ctx.setLineDash([]);
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, calY);
+                        this.ctx.lineTo(cx + outerR, calY);
+                        this.ctx.stroke();
+
+                        // End ticks
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, calY - 5);
+                        this.ctx.lineTo(cx, calY + 5);
+                        this.ctx.moveTo(cx + outerR, calY - 5);
+                        this.ctx.lineTo(cx + outerR, calY + 5);
+                        this.ctx.stroke();
+
+                        this.ctx.fillStyle = '#7dd3fc';
+                        this.ctx.font = 'bold 11.5px system-ui';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(`Distance r = ${d.radiusPm} pm`, cx + outerR / 2, calY + 14);
+                        this.ctx.restore();
+                    } else {
+                        // Draw diagonal caliper when atom is very large (e.g. Cs)
+                        const ang = Math.PI * 0.78;
+                        const rx = cx + Math.cos(ang) * outerR;
+                        const ry = cy + Math.sin(ang) * outerR;
+                        this.ctx.save();
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, cy);
+                        this.ctx.lineTo(rx, ry);
+                        this.ctx.strokeStyle = '#38bdf8';
+                        this.ctx.lineWidth = 2;
+                        this.ctx.stroke();
+                        this.ctx.fillStyle = '#7dd3fc';
+                        this.ctx.font = 'bold 11.5px system-ui';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(`r = ${d.radiusPm} pm`, (cx + rx) / 2 - 20, (cy + ry) / 2 + 12);
+                        this.ctx.restore();
+                    }
+                }
+
+                // 4. Draw Glowing Positive Nucleus
+                const nucR = 19;
+                const nucGrad = this.ctx.createRadialGradient(cx, cy, 2, cx, cy, nucR);
+                nucGrad.addColorStop(0, '#fef08a');
+                nucGrad.addColorStop(0.6, '#f97316');
+                nucGrad.addColorStop(1, '#dc2626');
+
+                this.ctx.beginPath();
+                this.ctx.arc(cx, cy, nucR, 0, Math.PI * 2);
+                this.ctx.fillStyle = nucGrad;
+                this.ctx.shadowColor = '#f97316';
+                this.ctx.shadowBlur = 15;
+                this.ctx.fill();
+                this.ctx.shadowBlur = 0;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '900 11px system-ui';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(`+${d.z}`, cx, cy);
+            }
+        };
+
+
+
+        // Enhanced Group 7 (Halogens) 8th-Electron Attraction & Shielding Upgrade
+        Object.assign(AtomicSim, {
+            dataG7: [
+                {
+                    id: 'F', name: 'Fluorine', z: 9, shells: [2, 7], radiusPm: 71,
+                    distDesc: '71 pm (Very Close to Nucleus)', shieldDesc: '1 inner shell (2 e⁻) — Minimum Shielding',
+                    shieldVal: 12,
+                    forceVal: 95, forceText: 'VERY STRONG PULL (95%)', gaugeColor: '#22c55e',
+                    easeVal: 96, easeText: 'ATTRACTS 8th e⁻ INSTANTLY!', easeColor: '#22c55e',
+                    attachSpeed: 0.028, hesitate: false
+                },
+                {
+                    id: 'Cl', name: 'Chlorine', z: 17, shells: [2, 8, 7], radiusPm: 99,
+                    distDesc: '99 pm (Moderate Distance)', shieldDesc: '2 inner shells (10 e⁻) — Low Shielding',
+                    shieldVal: 34,
+                    forceVal: 72, forceText: 'STRONG PULL (72%)', gaugeColor: '#4ade80',
+                    easeVal: 75, easeText: 'ATTRACTS 8th e⁻ EASILY', easeColor: '#4ade80',
+                    attachSpeed: 0.020, hesitate: false
+                },
+                {
+                    id: 'Br', name: 'Bromine', z: 35, shells: [2, 8, 18, 7], radiusPm: 114,
+                    distDesc: '114 pm (Far from Nucleus)', shieldDesc: '3 inner shells (28 e⁻) — High Shielding',
+                    shieldVal: 66,
+                    forceVal: 42, forceText: 'WEAKENED PULL (42%)', gaugeColor: '#eab308',
+                    easeVal: 40, easeText: 'SLOWER / HARDER TO ATTRACT 8th e⁻', easeColor: '#f97316',
+                    attachSpeed: 0.012, hesitate: true
+                },
+                {
+                    id: 'I', name: 'Iodine', z: 53, shells: [2, 8, 18, 18, 7], radiusPm: 133,
+                    distDesc: '133 pm (Greatest Distance)', shieldDesc: '4 inner shells (46 e⁻) — Very High Shielding',
+                    shieldVal: 88,
+                    forceVal: 18, forceText: 'VERY WEAK PULL (18%)', gaugeColor: '#ef4444',
+                    easeVal: 15, easeText: 'VERY DIFFICULT TO ATTRACT 8th e⁻!', easeColor: '#ef4444',
+                    attachSpeed: 0.008, hesitate: true
+                }
+            ],
+
+            resetTest(playSound = true) {
+                if (playSound) SoundEngine.pop();
+                this.animState = 'idle';
+                this.animProgress = 0;
+                this.snapPhase = 0;
+                const d = this.getCurrentData();
+                const toast = document.getElementById('sim-toast');
+                if (toast) {
+                    toast.style.borderColor = '#38bdf8';
+                    if (this.currentGroup === 'g1') {
+                        toast.textContent = `💡 Click "Pull Outer Electron from ${d.id}" (or tap the atom) to see how easily ${d.id} loses its outer electron!`;
+                    } else {
+                        toast.textContent = `💡 Click "Test Attracting the 8th Electron" to launch an incoming 8th e⁻ and see how strongly ${d.id}'s nucleus (+${d.z}) attracts it!`;
+                    }
+                }
+                const btnText = document.getElementById('btn-action-text');
+                if (btnText) {
+                    btnText.textContent = this.currentGroup === 'g1'
+                        ? `Pull Outer Electron from ${d.id}`
+                        : `Test Attracting the 8th Electron (${d.id})`;
+                }
+            },
+
+            updateMetrics() {
+                const d = this.getCurrentData();
+                const innerShells = d.shells.length - 1;
+                const innerElec = d.shells.slice(0, -1).reduce((a, b) => a + b, 0);
+
+                document.getElementById('canvas-atom-title').textContent = `${d.name} (${d.id}) • ${d.shells.length} Shells (${d.shells.join(',')})`;
+                document.getElementById('canvas-radius-badge').textContent = `Distance (r): ${d.radiusPm} pm`;
+
+                document.getElementById('metric-config').textContent = d.shells.join(', ');
+                document.getElementById('metric-shells').textContent = `${d.shells.length} shells (${innerShells} inner shielding)`;
+                document.getElementById('metric-shield-count').textContent = d.shieldDesc;
+                document.getElementById('metric-distance').textContent = d.distDesc;
+
+                const forceLabel = document.getElementById('metric-force-label');
+                if (forceLabel) {
+                    forceLabel.textContent = this.currentGroup === 'g1'
+                        ? 'Nuclear Hold on Outer Electron:'
+                        : 'Attraction of Nucleus to Incoming 8th e⁻:';
+                }
+
+                const forceText = document.getElementById('metric-force-text');
+                forceText.textContent = d.forceText;
+                forceText.style.color = d.gaugeColor;
+
+                const gauge = document.getElementById('metric-force-gauge');
+                gauge.style.width = `${d.forceVal}%`;
+                gauge.style.background = d.gaugeColor;
+
+                const easeLabel = document.getElementById('metric-ease-label');
+                const easeText = document.getElementById('metric-ease-text');
+                const easeGauge = document.getElementById('metric-ease-gauge');
+                easeLabel.textContent = this.currentGroup === 'g1'
+                    ? 'Ease of Removing Outer Electron:'
+                    : 'Ease of Attracting the 8th Electron:';
+                easeText.textContent = d.easeText;
+                easeText.style.color = d.easeColor;
+                easeGauge.style.width = `${d.easeVal}%`;
+                easeGauge.style.background = d.easeColor;
+
+                const btnActionIcon = document.getElementById('btn-action-icon');
+                const btnActionText = document.getElementById('btn-action-text');
+                const expl = document.getElementById('action-expl');
+                if (this.currentGroup === 'g1') {
+                    btnActionIcon.textContent = '🖐️';
+                    btnActionText.textContent = `Pull Outer Electron from ${d.id}`;
+                    expl.innerHTML = `<strong>${d.name}:</strong> ${innerShells} inner shell(s) (${innerElec} e⁻) &amp; distance ${d.radiusPm} pm &rarr; <strong>${d.easeText}</strong>`;
+                } else {
+                    btnActionIcon.textContent = '🧲';
+                    btnActionText.textContent = `Test Attracting the 8th Electron (${d.id})`;
+                    expl.innerHTML = `<strong>${d.name} (+${d.z} nucleus):</strong> ${innerShells} inner shell(s) (${innerElec} shielding e⁻) &amp; distance ${d.radiusPm} pm &rarr; <strong>${d.forceText}</strong>`;
+                }
+            },
+
+            triggerInteractiveTest() {
+                const d = this.getCurrentData();
+                // Always launch or replay immediately when the test button is pressed!
+                this.animState = 'running';
+                this.animProgress = 0;
+                this.snapPhase = 0;
+                SoundEngine.whoosh();
+
+                const btnText = document.getElementById('btn-action-text');
+                if (btnText) {
+                    btnText.textContent = this.currentGroup === 'g1'
+                        ? `Pulling Outer Electron from ${d.id}...`
+                        : `Attracting Incoming 8th e⁻ to ${d.id}...`;
+                }
+
+                const toast = document.getElementById('sim-toast');
+                if (this.currentGroup === 'g1') {
+                    if (d.shells.length <= 2) {
+                        toast.textContent = `🔒 Pulling ${d.id}'s outer electron... Notice the strong nuclear hold resisting removal!`;
+                        toast.style.borderColor = '#f59e0b';
+                    } else if (d.shells.length === 3) {
+                        toast.textContent = `⚡ Pulling ${d.id}'s outer electron... Moderate distance & 2 shielding shells make it easier than Li!`;
+                        toast.style.borderColor = '#eab308';
+                    } else {
+                        toast.textContent = `🚀 Pulling ${d.id}'s outer electron... Great distance & strong shielding let it break free effortlessly!`;
+                        toast.style.borderColor = '#22c55e';
+                    }
+                } else {
+                    if (d.shells.length <= 2) {
+                        toast.textContent = `🧲 Incoming 8th e⁻ launched! ${d.name}'s +${d.z} nucleus is VERY CLOSE (71 pm) with only 1 inner shell (2 e⁻) — 95% nuclear pull snaps it in!`;
+                        toast.style.borderColor = '#22c55e';
+                    } else if (d.shells.length === 3) {
+                        toast.textContent = `🧲 Incoming 8th e⁻ launched! ${d.name}'s +${d.z} nucleus exerts a STRONG 72% pull across 3 shells to capture the 8th electron!`;
+                        toast.style.borderColor = '#4ade80';
+                    } else if (d.shells.length === 4) {
+                        toast.textContent = `⚠️ Incoming 8th e⁻ launched! In ${d.name}, larger distance (114 pm) & 3 inner shells (28 e⁻ repulsion) weaken the nucleus's pull to 42%!`;
+                        toast.style.borderColor = '#eab308';
+                    } else {
+                        toast.textContent = `🚨 Incoming 8th e⁻ launched! In ${d.name}, huge distance (133 pm) & 4 inner shells (46 e⁻ repulsion) block the +${d.z} nucleus — only 18% pull reaches the 8th e⁻!`;
+                        toast.style.borderColor = '#ef4444';
+                    }
+                }
+            },
+
+            updateAnimation() {
+                if (this.animState !== 'running') return;
+                const d = this.getCurrentData();
+
+                if (this.currentGroup === 'g1') {
+                    this.animProgress += d.pullSpeed;
+                    if (this.animProgress >= 1) {
+                        this.animProgress = 1;
+                        this.animState = 'done';
+                        if (d.easeVal >= 60) {
+                            SoundEngine.success();
+                        } else {
+                            SoundEngine.pop();
+                        }
+                        const toast = document.getElementById('sim-toast');
+                        if (d.shells.length <= 2) {
+                            toast.textContent = `🔒 ${d.name}: Took HIGH effort/energy to remove e⁻ (short distance + minimum shielding). Click button to test again!`;
+                        } else if (d.shells.length === 3) {
+                            toast.textContent = `⚡ ${d.name}: Removed with moderate effort (${d.shells.length} shells). Click button to test again!`;
+                        } else {
+                            toast.textContent = `🎉 ${d.name}: Outer e⁻ removed EFFORTLESSLY! Greater distance + ${d.shells.length - 1} shielding shells = Very weak hold!`;
+                        }
+                        document.getElementById('btn-action-text').textContent = `🔄 Test Pulling Outer e⁻ Again (${d.id})`;
+                    }
+                } else {
+                    this.animProgress += d.attachSpeed;
+                    if (this.animProgress >= 1) {
+                        this.animProgress = 1;
+                        this.animState = 'done';
+                        if (d.easeVal >= 60) {
+                            SoundEngine.success();
+                        } else {
+                            SoundEngine.wrong();
+                        }
+                        const toast = document.getElementById('sim-toast');
+                        if (d.shells.length <= 2) {
+                            toast.textContent = `🎉 ${d.name} (${d.id}⁻ formed): 8th e⁻ snapped in INSTANTLY! Very short distance (71 pm) + only 2 shielding e⁻ = 95% Nuclear Attraction!`;
+                        } else if (d.shells.length === 3) {
+                            toast.textContent = `✅ ${d.name} (${d.id}⁻ formed): 8th e⁻ attracted smoothly by 72% Nuclear Pull to complete the octet (2,8,8)!`;
+                        } else if (d.shells.length === 4) {
+                            toast.textContent = `⚠️ ${d.name} (${d.id}⁻ formed): 8th e⁻ hesitated against 3 inner shells (28 e⁻ shielding) before weak 42% Nuclear Pull captured it!`;
+                        } else {
+                            toast.textContent = `🚨 ${d.name} (${d.id}⁻ formed): Struggled heavily! Great distance (133 pm) + 4 inner shells (46 e⁻ shielding) left only 18% Nuclear Pull on the 8th e⁻!`;
+                        }
+                        document.getElementById('btn-action-text').textContent = `🔄 Test Attracting the 8th Electron (${d.id})`;
+                    }
+                }
+            },
+
+            draw() {
+                if (!this.canvas || !this.ctx) return;
+                const rect = this.canvas.getBoundingClientRect();
+                const w = rect.width;
+                const h = rect.height;
+                if (w === 0 || h === 0) return;
+
+                const d = this.getCurrentData();
+                const numShells = d.shells.length;
+                const innerShells = numShells - 1;
+                const innerElec = d.shells.slice(0, -1).reduce((a, b) => a + b, 0);
+
+                // Position atom center so the right-side action zone has generous room for the incoming 8th electron & force HUD
+                const cx = this.currentGroup === 'g7' ? w * 0.34 : w * 0.42;
+                const cy = h * 0.54;
+
+                this.ctx.clearRect(0, 0, w, h);
+
+                // TRUE PROPORTIONAL SHELL SPACING
+                const maxPossibleR = Math.min(w * 0.33, h * 0.39);
+                const baseR = 23;
+                const shellStep = (maxPossibleR - baseR) / 6;
+                const getShellRadius = (s) => baseR + s * shellStep;
+                const outerR = getShellRadius(numShells);
+                const innerOuterR = getShellRadius(innerShells);
+
+                // 0. Reference Circle of Period 2 (Fluorine / Lithium = 2 shells) when viewing larger atoms
+                if (numShells > 2) {
+                    const refR = getShellRadius(2);
+                    this.ctx.save();
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, refR, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = 'rgba(56, 189, 248, 0.32)';
+                    this.ctx.setLineDash([3, 4]);
+                    this.ctx.lineWidth = 1.3;
+                    this.ctx.stroke();
+                    this.ctx.fillStyle = 'rgba(125, 211, 252, 0.75)';
+                    this.ctx.font = 'bold 10px system-ui';
+                    this.ctx.textAlign = 'center';
+                    const refName = this.currentGroup === 'g7' ? 'F size (71 pm)' : 'Li size (152 pm)';
+                    this.ctx.fillText(refName, cx - refR * 0.68, cy - refR * 0.72);
+                    this.ctx.restore();
+                }
+
+                // 1. Draw Shielding Zone (Inner Shells Negative Repulsion Cloud & Directional Barrier)
+                if (this.showShielding && innerShells >= 1) {
+                    const shieldGrad = this.ctx.createRadialGradient(cx, cy, baseR * 0.75, cx, cy, innerOuterR + shellStep * 0.36);
+                    const shieldIntensity = Math.min(0.46, 0.08 + innerShells * 0.085);
+                    shieldGrad.addColorStop(0, 'rgba(239, 68, 68, 0.03)');
+                    shieldGrad.addColorStop(0.65, `rgba(239, 68, 68, ${shieldIntensity * 0.75})`);
+                    shieldGrad.addColorStop(0.94, `rgba(168, 85, 247, ${shieldIntensity})`);
+                    shieldGrad.addColorStop(1, 'rgba(168, 85, 247, 0)');
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, innerOuterR + shellStep * 0.36, 0, Math.PI * 2);
+                    this.ctx.fillStyle = shieldGrad;
+                    this.ctx.fill();
+
+                    // Directional Repulsion Wave Arcs on the right side (pushing outward against outer/incoming electron!)
+                    this.ctx.save();
+                    for (let wIdx = 0; wIdx < innerShells; wIdx++) {
+                        const waveOffset = ((this.time * 22 + wIdx * 11) % 24);
+                        const arcR = innerOuterR - (innerShells - 1 - wIdx) * (shellStep * 0.55) + waveOffset * 0.45;
+                        const alpha = Math.max(0.12, (1 - waveOffset / 24) * (0.3 + innerShells * 0.12));
+                        this.ctx.beginPath();
+                        this.ctx.arc(cx, cy, arcR, -0.42, 0.42);
+                        this.ctx.strokeStyle = `rgba(248, 113, 113, ${alpha})`;
+                        this.ctx.lineWidth = 1.8 + innerShells * 0.4;
+                        this.ctx.stroke();
+                    }
+                    this.ctx.restore();
+                }
+
+                // 2. Draw Concentric Shells & Inner Orbiting Electrons
+                for (let s = 1; s <= numShells; s++) {
+                    const r = getShellRadius(s);
+                    const isValence = (s === numShells);
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    if (isValence) {
+                        this.ctx.strokeStyle = this.currentGroup === 'g1' ? 'rgba(251, 146, 60, 0.88)' : 'rgba(16, 185, 129, 0.9)';
+                        this.ctx.lineWidth = 2.3;
+                        this.ctx.setLineDash([]);
+                    } else {
+                        this.ctx.strokeStyle = this.showShielding ? 'rgba(248, 113, 113, 0.62)' : 'rgba(148, 163, 184, 0.35)';
+                        this.ctx.lineWidth = 1.5;
+                        this.ctx.setLineDash(this.showShielding ? [5, 5] : []);
+                    }
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+
+                    const electronCount = d.shells[s - 1];
+                    const speed = (0.35 / s) * (s % 2 === 0 ? -1 : 1);
+
+                    if (!isValence) {
+                        // Inner shell electrons (orbiting negative shield)
+                        for (let eIdx = 0; eIdx < electronCount; eIdx++) {
+                            const ang = (eIdx / electronCount) * Math.PI * 2 + this.time * speed;
+                            const ex = cx + Math.cos(ang) * r;
+                            const ey = cy + Math.sin(ang) * r;
+
+                            this.ctx.beginPath();
+                            this.ctx.arc(ex, ey, 4.2, 0, Math.PI * 2);
+                            this.ctx.fillStyle = this.showShielding ? '#f87171' : '#38bdf8';
+                            this.ctx.shadowColor = this.showShielding ? '#ef4444' : '#0284c7';
+                            this.ctx.shadowBlur = 5;
+                            this.ctx.fill();
+                            this.ctx.shadowBlur = 0;
+                        }
+                    } else if (this.currentGroup === 'g1') {
+                        // ================= GROUP 1: REMOVE OUTER ELECTRON =================
+                        const bobAngle = this.animState === 'idle' ? Math.sin(this.time * 1.5) * 0.06 : 0;
+                        let ex = cx + Math.cos(bobAngle) * r;
+                        let ey = cy + Math.sin(bobAngle) * r;
+
+                        let pullOffset = 0;
+                        if (this.animState !== 'idle') {
+                            const p = this.animProgress;
+                            if (d.snapBack && p < 0.65) {
+                                const struggle = Math.sin(p * Math.PI * 6) * 8;
+                                pullOffset = (p / 0.65) * 28 + Math.abs(struggle);
+                                ey += Math.sin(this.time * 25) * 2.5;
+                            } else if (d.snapBack) {
+                                const p2 = (p - 0.65) / 0.35;
+                                pullOffset = 28 + p2 * p2 * (w * 0.42 - outerR);
+                            } else {
+                                pullOffset = Math.pow(p, 1.3) * (w * 0.44 - outerR);
+                            }
+                        }
+                        ex += pullOffset;
+
+                        if (this.showShielding && innerShells >= 1) {
+                            for (let is = 1; is <= innerShells; is++) {
+                                const ir = getShellRadius(is);
+                                const pulse = (this.time * 18) % 12;
+                                const rx = cx + ir + pulse * 0.4;
+                                if (rx < ex - 14) {
+                                    this.drawArrow(this.ctx, cx + ir - 4, cy - 12, cx + ir + 12, cy - 12, 'rgba(248, 113, 113, 0.85)', 2, 6);
+                                }
+                            }
+                            const midShieldX = cx + getShellRadius(Math.ceil(innerShells / 2));
+                            this.ctx.fillStyle = '#fca5a5';
+                            this.ctx.font = 'bold 11px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.fillText(`🛡️ Shielding repulsion (${innerShells} inner shell${innerShells > 1 ? 's' : ''})`, midShieldX, cy - 22);
+                        }
+
+                        const tetherBroken = (this.animState === 'done') || (this.animProgress > (d.snapBack ? 0.68 : 0.35));
+                        if (this.showBeam && !tetherBroken) {
+                            const coils = Math.max(4, numShells * 2);
+                            const springWidth = Math.max(1.2, (d.forceVal / 100) * 4.5);
+                            const springAlpha = Math.max(0.25, d.forceVal / 100);
+                            this.drawSpring(this.ctx, cx + 18, cy, ex - 8, ey, coils, 5, `rgba(250, 204, 21, ${springAlpha})`, springWidth);
+
+                            const pullLen = 18 + (d.forceVal / 100) * 28;
+                            this.drawArrow(this.ctx, ex - 10, ey + 15, ex - 10 - pullLen, ey + 15, '#facc15', Math.max(1.5, springWidth), 8);
+                            this.ctx.fillStyle = '#fef08a';
+                            this.ctx.font = 'bold 11px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.fillText(`Nuclear Pull (${d.forceText})`, (cx + ex) / 2, cy + 30);
+                        } else if (tetherBroken) {
+                            this.ctx.fillStyle = '#4ade80';
+                            this.ctx.font = 'bold 12px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.fillText(`✂️ Attraction overcome! e⁻ removed (${d.id}⁺ formed)`, cx + outerR + 55, cy - 24);
+                        }
+
+                        if (this.animState !== 'idle') {
+                            this.drawArrow(this.ctx, ex + 10, ey, ex + 44, ey, '#38bdf8', 3, 9);
+                            this.ctx.fillStyle = '#7dd3fc';
+                            this.ctx.font = 'bold 11px system-ui';
+                            this.ctx.textAlign = 'left';
+                            this.ctx.fillText('Pulling e⁻', ex + 14, ey - 10);
+                        }
+
+                        this.ctx.beginPath();
+                        this.ctx.arc(ex, ey, 8, 0, Math.PI * 2);
+                        this.ctx.fillStyle = '#fb923c';
+                        this.ctx.shadowColor = '#ea580c';
+                        this.ctx.shadowBlur = 14;
+                        this.ctx.fill();
+                        this.ctx.shadowBlur = 0;
+                        this.ctx.strokeStyle = '#fff';
+                        this.ctx.lineWidth = 1.5;
+                        this.ctx.stroke();
+
+                        this.ctx.fillStyle = '#fff';
+                        this.ctx.font = 'bold 9px system-ui';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.textBaseline = 'middle';
+                        this.ctx.fillText('e⁻', ex, ey);
+
+                    } else {
+                        // ================= GROUP 7: HALOGENS ATTRACTING THE 8th ELECTRON =================
+                        // 1. Draw the 7 existing valence electrons at slots 1..7, leaving Slot 0 (angle 0, right side) as the 8th Electron Vacancy
+                        for (let slot = 1; slot < 8; slot++) {
+                            const ang = (slot / 8) * Math.PI * 2 + Math.sin(this.time * 0.8) * 0.025;
+                            const gx = cx + Math.cos(ang) * r;
+                            const gy = cy + Math.sin(ang) * r;
+
+                            this.ctx.beginPath();
+                            this.ctx.arc(gx, gy, 6.2, 0, Math.PI * 2);
+                            this.ctx.fillStyle = '#059669';
+                            this.ctx.shadowColor = '#10b981';
+                            this.ctx.shadowBlur = 7;
+                            this.ctx.fill();
+                            this.ctx.shadowBlur = 0;
+                            this.ctx.strokeStyle = '#a7f3d0';
+                            this.ctx.lineWidth = 1.2;
+                            this.ctx.stroke();
+                        }
+
+                        // 2. Empty 8th Electron Slot on the outer shell (at distance r = outerR from the nucleus!)
+                        const vacX = cx + r;
+                        const vacY = cy;
+
+                        this.ctx.save();
+                        const slotPulse = 9.5 + Math.sin(this.time * 4) * 1.5;
+                        this.ctx.beginPath();
+                        this.ctx.arc(vacX, vacY, slotPulse, 0, Math.PI * 2);
+                        this.ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
+                        this.ctx.fill();
+                        this.ctx.strokeStyle = '#34d399';
+                        this.ctx.lineWidth = 2.2;
+                        this.ctx.setLineDash([3, 3]);
+                        this.ctx.stroke();
+                        this.ctx.setLineDash([]);
+                        if (this.animState !== 'done') {
+                            this.ctx.fillStyle = '#6ee7b7';
+                            this.ctx.font = 'bold 9.5px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.fillText('8th Slot', vacX, vacY - 14);
+                        }
+                        this.ctx.restore();
+
+                        // 3. Calculate Incoming 8th Electron Position
+                        // Crucial Physics Fix: Place the incoming electron entry point at a consistent approach distance outside the outer shell
+                        // so that total distance from the Nucleus (cx) to the Incoming 8th Electron increases genuinely with atomic radius (F < Cl < Br < I)!
+                        const approachGap = Math.min(135, Math.max(88, (w - vacX - 48) * 0.72));
+                        const startX = Math.min(w - 38, vacX + approachGap);
+                        const startY = cy;
+                        let incX = startX;
+                        let incY = startY;
+
+                        if (this.animState === 'idle') {
+                            incX = startX + Math.sin(this.time * 2.6) * 3.5;
+                            incY = startY + Math.cos(this.time * 2.6) * 2.0;
+                        } else if (this.animState === 'running') {
+                            const p = this.animProgress;
+                            if (!d.hesitate) {
+                                // Fluorine & Chlorine: Strong nuclear attraction accelerates the 8th electron rapidly into the 8th slot!
+                                const accelPower = numShells <= 2 ? 1.85 : 1.45;
+                                const easeIn = Math.pow(p, accelPower);
+                                incX = startX - (startX - vacX) * easeIn;
+                                incY = startY;
+                            } else {
+                                // Bromine & Iodine: Incoming 8th electron encounters strong inner-shell shielding repulsion and hesitates/wobbles!
+                                if (p < 0.35) {
+                                    // Initial approach from startX toward the shielding barrier
+                                    const p1 = p / 0.35;
+                                    incX = startX - (startX - vacX) * (p1 * 0.48);
+                                } else if (p < 0.74) {
+                                    // Repulsion struggle zone: pushed back & vibrating against inner-shell electron repulsion!
+                                    const pMid = (p - 0.35) / 0.39;
+                                    const repulsePushback = Math.sin(pMid * Math.PI * (innerShells >= 4 ? 4 : 3)) * (innerShells * 3.6);
+                                    const slowCreep = 0.48 + pMid * 0.20;
+                                    incX = startX - (startX - vacX) * slowCreep + repulsePushback;
+                                    incY = startY + Math.sin(this.time * 24) * (innerShells * 1.15);
+                                } else {
+                                    // Weak nuclear pull finally draws the 8th electron into the vacancy
+                                    const p3 = (p - 0.74) / 0.26;
+                                    const fromX = startX - (startX - vacX) * 0.68;
+                                    incX = fromX - (fromX - vacX) * Math.pow(p3, 1.2);
+                                    incY = startY + (1 - p3) * Math.sin(this.time * 18) * 2;
+                                }
+                            }
+                        } else if (this.animState === 'done') {
+                            incX = vacX;
+                            incY = vacY;
+                        }
+
+                        // 4. Draw Nucleus-to-Incoming-8th-Electron Attraction Cone, Tension Spring & Animated Inward Force Waves
+                        if (this.showBeam) {
+                            const pullRatio = d.forceVal / 100; // 0.95 (F), 0.72 (Cl), 0.42 (Br), 0.18 (I)
+                            const targetX = this.animState === 'done' ? vacX : incX;
+                            const targetY = this.animState === 'done' ? vacY : incY;
+
+                            // 4a. Glowing Tractor Cone from Positive Nucleus (+Z) straight to the 8th Electron
+                            this.ctx.save();
+                            const coneGrad = this.ctx.createLinearGradient(cx, cy, targetX, targetY);
+                            const coneAlphaStart = 0.10 + pullRatio * 0.32;
+                            const coneAlphaEnd = 0.05 + pullRatio * 0.26;
+                            coneGrad.addColorStop(0, `rgba(250, 204, 21, ${coneAlphaStart})`);
+                            coneGrad.addColorStop(0.5, this.showShielding && innerShells >= 3
+                                ? `rgba(249, 115, 22, ${coneAlphaEnd * 0.55})`
+                                : `rgba(250, 204, 21, ${coneAlphaEnd * 0.85})`);
+                            coneGrad.addColorStop(1, `rgba(16, 185, 129, ${coneAlphaEnd})`);
+
+                            const spreadAtNucleus = 6 + pullRatio * 8;
+                            const spreadAtElectron = 8 + pullRatio * 14;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(cx + 12, cy - spreadAtNucleus);
+                            this.ctx.lineTo(targetX - 6, targetY - spreadAtElectron);
+                            this.ctx.lineTo(targetX - 6, targetY + spreadAtElectron);
+                            this.ctx.lineTo(cx + 12, cy + spreadAtNucleus);
+                            this.ctx.closePath();
+                            this.ctx.fillStyle = coneGrad;
+                            this.ctx.fill();
+                            this.ctx.restore();
+
+                            // 4b. Ghost trajectory line when running or done so student sees the incoming path
+                            if (this.animState !== 'idle') {
+                                this.ctx.save();
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(startX, startY);
+                                this.ctx.lineTo(vacX, vacY);
+                                this.ctx.strokeStyle = 'rgba(52, 211, 153, 0.25)';
+                                this.ctx.lineWidth = 1.5;
+                                this.ctx.setLineDash([3, 4]);
+                                this.ctx.stroke();
+                                this.ctx.restore();
+                            }
+
+                            // 4c. Electrostatic Attraction Spring from Nucleus (+Z) to the 8th Electron
+                            const springWidth = Math.max(1.1, pullRatio * 4.6);
+                            const springAlpha = Math.max(0.22, pullRatio * 0.95);
+                            const springAmp = 2.5 + pullRatio * 4.5;
+                            const coils = Math.max(5, Math.round((targetX - cx) / 22));
+                            const springColor = pullRatio >= 0.7
+                                ? `rgba(250, 204, 21, ${springAlpha})`
+                                : pullRatio >= 0.4
+                                    ? `rgba(234, 179, 8, ${springAlpha})`
+                                    : `rgba(248, 113, 113, ${springAlpha})`;
+
+                            this.drawSpring(this.ctx, cx + 19, cy, targetX - 10, targetY, coils, springAmp, springColor, springWidth);
+
+                            // 4d. Animated Inward-Flowing Attraction Chevrons («««) pulling the 8th electron toward the +Z nucleus
+                            const numChevrons = pullRatio >= 0.85 ? 5 : pullRatio >= 0.65 ? 4 : pullRatio >= 0.35 ? 2 : 1;
+                            const chevronSpeed = (0.4 + pullRatio * 1.4) * 28;
+                            const spanLen = Math.max(30, (targetX - 14) - (cx + 24));
+                            this.ctx.save();
+                            this.ctx.strokeStyle = pullRatio >= 0.65 ? '#fde047' : pullRatio >= 0.35 ? '#facc15' : '#fca5a5';
+                            this.ctx.lineWidth = Math.max(1.5, pullRatio * 3.2);
+                            for (let cIdx = 0; cIdx < numChevrons; cIdx++) {
+                                const offset = ((this.time * chevronSpeed + (cIdx / numChevrons) * spanLen) % spanLen);
+                                const chX = (targetX - 14) - offset;
+                                const chSize = 4 + pullRatio * 4.5;
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(chX + chSize, targetY - chSize);
+                                this.ctx.lineTo(chX, targetY);
+                                this.ctx.lineTo(chX + chSize, targetY + chSize);
+                                this.ctx.stroke();
+                            }
+                            this.ctx.restore();
+
+                            // 4e. Prominent Inward Nuclear Attraction Vector Arrow directly on the 8th Electron
+                            const pullArrowLen = 22 + pullRatio * 56;
+                            const pullArrowWidth = 2.0 + pullRatio * 3.8;
+                            const arrowY = targetY + (this.animState === 'done' ? 22 : 18);
+                            this.drawArrow(
+                                this.ctx,
+                                targetX,
+                                arrowY,
+                                targetX - pullArrowLen,
+                                arrowY,
+                                d.gaugeColor,
+                                pullArrowWidth,
+                                8 + pullRatio * 4
+                            );
+
+                            // Attraction strength label right below the vector arrow
+                            this.ctx.save();
+                            this.ctx.fillStyle = d.gaugeColor;
+                            this.ctx.font = 'bold 11.5px system-ui';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.fillText(
+                                `⬅ Nucleus (+${d.z}) Pull on 8th e⁻: ${d.forceVal}%`,
+                                targetX - pullArrowLen * 0.5,
+                                arrowY + 15
+                            );
+                            this.ctx.restore();
+                        }
+
+                        // 5. Draw Inner-Shell Shielding Repulsion Arrows pushing OUTWARD against the Incoming 8th Electron
+                        if (this.showShielding && innerShells >= 1) {
+                            for (let is = 1; is <= innerShells; is++) {
+                                const ir = getShellRadius(is);
+                                this.drawArrow(
+                                    this.ctx,
+                                    cx + ir - 4,
+                                    cy - 14,
+                                    cx + ir + 13,
+                                    cy - 14,
+                                    'rgba(248, 113, 113, 0.9)',
+                                    1.8 + innerShells * 0.25,
+                                    6
+                                );
+                            }
+
+                            // Outward Repulsion Vector acting against the Incoming 8th Electron
+                            const repulseRatio = d.shieldVal / 100;
+                            const repulseLen = 14 + repulseRatio * 46;
+                            const targetX = this.animState === 'done' ? vacX : incX;
+                            const targetY = this.animState === 'done' ? vacY : incY;
+                            this.drawArrow(
+                                this.ctx,
+                                targetX + 12,
+                                targetY,
+                                targetX + 12 + repulseLen,
+                                targetY,
+                                '#f87171',
+                                1.6 + repulseRatio * 3.0,
+                                7 + repulseRatio * 3
+                            );
+
+                            this.ctx.save();
+                            this.ctx.fillStyle = '#fca5a5';
+                            this.ctx.font = 'bold 10.5px system-ui';
+                            this.ctx.textAlign = 'left';
+                            this.ctx.fillText(
+                                `Shielding Repulsion (${innerElec} e⁻) ➔`,
+                                targetX + 14,
+                                targetY - 12
+                            );
+
+                            const midShieldX = cx + getShellRadius(Math.ceil(innerShells / 2));
+                            this.ctx.textAlign = 'center';
+                            this.ctx.font = 'bold 11px system-ui';
+                            this.ctx.fillText(
+                                `🛡️ ${innerShells} Inner Shell${innerShells > 1 ? 's' : ''} (${innerElec} e⁻) Blocking & Repelling`,
+                                midShieldX,
+                                cy - 26
+                            );
+                            this.ctx.restore();
+                        }
+
+                        // 6. Draw Motion Trails Behind the Incoming 8th Electron while Running
+                        if (this.animState === 'running') {
+                            const pullRatio = d.forceVal / 100;
+                            const trailCount = pullRatio >= 0.7 ? 4 : 2;
+                            this.ctx.save();
+                            for (let tIdx = 1; tIdx <= trailCount; tIdx++) {
+                                const tx = Math.min(startX, incX + tIdx * (6 + pullRatio * 10));
+                                const ty = incY;
+                                this.ctx.beginPath();
+                                this.ctx.arc(tx, ty, Math.max(2.5, 9 - tIdx * 1.8), 0, Math.PI * 2);
+                                this.ctx.fillStyle = `rgba(52, 211, 153, ${0.35 / tIdx})`;
+                                this.ctx.fill();
+                            }
+                            this.ctx.restore();
+                        }
+
+                        // 7. Draw the Incoming 8th Electron (Large, High-Contrast Glowing Particle)
+                        this.ctx.save();
+                        // Outer pulsing aura around the 8th electron
+                        const auraR = 14 + Math.sin(this.time * 5) * 2.5;
+                        this.ctx.beginPath();
+                        this.ctx.arc(incX, incY, auraR, 0, Math.PI * 2);
+                        this.ctx.fillStyle = this.animState === 'done'
+                            ? 'rgba(52, 211, 153, 0.28)'
+                            : 'rgba(250, 204, 21, 0.22)';
+                        this.ctx.fill();
+
+                        // Core 8th electron sphere
+                        this.ctx.beginPath();
+                        this.ctx.arc(incX, incY, 10, 0, Math.PI * 2);
+                        this.ctx.fillStyle = this.animState === 'done' ? '#10b981' : '#06b6d4';
+                        this.ctx.shadowColor = this.animState === 'done' ? '#34d399' : '#22d3ee';
+                        this.ctx.shadowBlur = 16;
+                        this.ctx.fill();
+                        this.ctx.shadowBlur = 0;
+                        this.ctx.strokeStyle = '#ffffff';
+                        this.ctx.lineWidth = 2.2;
+                        this.ctx.stroke();
+
+                        this.ctx.fillStyle = '#ffffff';
+                        this.ctx.font = '900 9.5px system-ui';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.textBaseline = 'middle';
+                        this.ctx.fillText('8th e⁻', incX, incY);
+
+                        // Top Badge above the Incoming 8th Electron
+                        if (this.animState === 'idle') {
+                            this.ctx.fillStyle = '#67e8f9';
+                            this.ctx.font = 'bold 11.5px system-ui';
+                            this.ctx.fillText('⚡ Incoming 8th e⁻', incX, incY - 22);
+                        } else if (this.animState === 'running') {
+                            this.ctx.fillStyle = '#fef08a';
+                            this.ctx.font = 'bold 11.5px system-ui';
+                            this.ctx.fillText(
+                                d.hesitate ? '⚠️ Slowed by Shielding!' : '🧲 Pulled by Nucleus!',
+                                incX,
+                                incY - 22
+                            );
+                        } else if (this.animState === 'done') {
+                            this.ctx.beginPath();
+                            this.ctx.arc(vacX, vacY, 16 + Math.sin(this.time * 6) * 3, 0, Math.PI * 2);
+                            this.ctx.strokeStyle = 'rgba(52, 211, 153, 0.8)';
+                            this.ctx.lineWidth = 2.2;
+                            this.ctx.stroke();
+
+                            this.ctx.fillStyle = '#4ade80';
+                            this.ctx.font = 'bold 12px system-ui';
+                            this.ctx.textAlign = 'left';
+                            this.ctx.fillText(
+                                `✅ 8th e⁻ Captured! ${d.id}⁻ (${d.shells.slice(0, -1).join(',')},8)`,
+                                vacX + 18,
+                                vacY - 14
+                            );
+                        }
+                        this.ctx.restore();
+
+                        // 8. On-Canvas HUD Panel: Live Breakdown of Nucleus Attraction on the 8th Electron
+                        const hudW = 246;
+                        const hudH = 92;
+                        const hudX = Math.max(cx + outerR - 10, w - hudW - 12);
+                        const hudY = 50;
+                        this.ctx.save();
+                        this.ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+                        this.ctx.strokeStyle = d.gaugeColor;
+                        this.ctx.lineWidth = 1.5;
+                        this.ctx.beginPath();
+                        if (this.ctx.roundRect) {
+                            this.ctx.roundRect(hudX, hudY, hudW, hudH, 8);
+                        } else {
+                            this.ctx.rect(hudX, hudY, hudW, hudH);
+                        }
+                        this.ctx.fill();
+                        this.ctx.stroke();
+
+                        this.ctx.fillStyle = '#f8fafc';
+                        this.ctx.font = 'bold 11px system-ui';
+                        this.ctx.textAlign = 'left';
+                        this.ctx.fillText(`🧲 Nucleus (+${d.z}) Pull on 8th Electron`, hudX + 10, hudY + 17);
+
+                        this.ctx.fillStyle = '#cbd5e1';
+                        this.ctx.font = '10.5px system-ui';
+                        this.ctx.fillText(`• Distance (r): ${d.radiusPm} pm (${numShells} shells)`, hudX + 10, hudY + 34);
+                        this.ctx.fillText(`• Shielding: ${innerShells} inner shell${innerShells > 1 ? 's' : ''} (${innerElec} e⁻ repelling)`, hudX + 10, hudY + 50);
+
+                        this.ctx.fillStyle = d.gaugeColor;
+                        this.ctx.font = 'bold 11px system-ui';
+                        this.ctx.fillText(`Net Pull: ${d.forceVal}% — ${d.forceText.split(' (')[0]}`, hudX + 10, hudY + 67);
+
+                        // Mini bar gauge inside HUD
+                        const barX = hudX + 10;
+                        const barY = hudY + 74;
+                        const barW = hudW - 20;
+                        this.ctx.fillStyle = '#1e293b';
+                        this.ctx.fillRect(barX, barY, barW, 8);
+                        this.ctx.fillStyle = d.gaugeColor;
+                        this.ctx.fillRect(barX, barY, barW * (d.forceVal / 100), 8);
+                        this.ctx.restore();
+                    }
+                }
+
+                // 3. Draw Distance Caliper ($r$) below the horizontal axis if enabled
+                if (this.showRuler) {
+                    const calY = cy + outerR + 24;
+                    if (calY < h - 24) {
+                        this.ctx.save();
+                        this.ctx.strokeStyle = '#38bdf8';
+                        this.ctx.lineWidth = 2;
+                        this.ctx.setLineDash([2, 3]);
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, cy + 20);
+                        this.ctx.lineTo(cx, calY + 5);
+                        this.ctx.moveTo(cx + outerR, cy + 10);
+                        this.ctx.lineTo(cx + outerR, calY + 5);
+                        this.ctx.stroke();
+
+                        this.ctx.setLineDash([]);
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, calY);
+                        this.ctx.lineTo(cx + outerR, calY);
+                        this.ctx.stroke();
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, calY - 5);
+                        this.ctx.lineTo(cx, calY + 5);
+                        this.ctx.moveTo(cx + outerR, calY - 5);
+                        this.ctx.lineTo(cx + outerR, calY + 5);
+                        this.ctx.stroke();
+
+                        this.ctx.fillStyle = '#7dd3fc';
+                        this.ctx.font = 'bold 11.5px system-ui';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(`Distance r = ${d.radiusPm} pm (Nucleus to Outer Shell)`, cx + outerR / 2, calY + 15);
+                        this.ctx.restore();
+                    } else {
+                        const ang = Math.PI * 0.78;
+                        const rx = cx + Math.cos(ang) * outerR;
+                        const ry = cy + Math.sin(ang) * outerR;
+                        this.ctx.save();
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, cy);
+                        this.ctx.lineTo(rx, ry);
+                        this.ctx.strokeStyle = '#38bdf8';
+                        this.ctx.lineWidth = 2;
+                        this.ctx.stroke();
+                        this.ctx.fillStyle = '#7dd3fc';
+                        this.ctx.font = 'bold 11.5px system-ui';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(`r = ${d.radiusPm} pm`, (cx + rx) / 2 - 20, (cy + ry) / 2 + 12);
+                        this.ctx.restore();
+                    }
+                }
+
+                // 4. Draw Glowing Positive Nucleus (+Z)
+                const nucR = 19;
+                const nucGrad = this.ctx.createRadialGradient(cx, cy, 2, cx, cy, nucR);
+                nucGrad.addColorStop(0, '#fef08a');
+                nucGrad.addColorStop(0.6, '#f97316');
+                nucGrad.addColorStop(1, '#dc2626');
+
+                this.ctx.beginPath();
+                this.ctx.arc(cx, cy, nucR, 0, Math.PI * 2);
+                this.ctx.fillStyle = nucGrad;
+                this.ctx.shadowColor = '#f97316';
+                this.ctx.shadowBlur = 16;
+                this.ctx.fill();
+                this.ctx.shadowBlur = 0;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '900 11px system-ui';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(`+${d.z}`, cx, cy);
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            G1Activity.init();
+            G7Activity.init();
+            VennActivity.init();
+            AtomicSim.init();
+        });
+    </script>
+</body>
+</html>
